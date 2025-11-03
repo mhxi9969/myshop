@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import orderApi from "~/api/order/Order";
+import orderApi from "@/api/order/order";
 
 export default {
   middleware: 'userauth',

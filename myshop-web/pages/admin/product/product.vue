@@ -198,14 +198,14 @@
 <script>
 import brandApi from '@/api/product/brand'
 import categoryApi from '@/api/product/category'
-import productSpuApi from '@/api/product/productSpu'
-import productSkuApi from '@/api/product/productSku'
+import productSpuApi from '@/api/product/product-spu'
+import productSkuApi from '@/api/product/product-sku'
 import attrApi from '@/api/product/attr'
-import UploadImage from "~/components/UploadImage.vue";
+import UploadImage from "@/components/upload-image.vue";
 
 
 export default {
-  components: {UploadImage},
+  components: {UploadImage: UploadImage},
   layout: 'admin', // 使用 admin 布局
 
   data() {

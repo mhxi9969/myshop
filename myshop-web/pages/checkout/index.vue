@@ -58,7 +58,7 @@
 
 <script>
 import cartApi from '@/api/cart/cart'
-import productSkuApi from '@/api/product/productSku'
+import productSkuApi from '@/api/product/product-sku'
 import orderApi from '@/api/order/order'
 
 export default {

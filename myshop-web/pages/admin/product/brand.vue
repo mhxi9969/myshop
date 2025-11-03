@@ -71,12 +71,12 @@
 
 <script>
 import brandApi from '@/api/product/brand'
-import UploadImage from '@/components/UploadImage.vue'
+import UploadImage from '@/components/upload-image.vue'
 
 
 export default {
   layout: 'admin', // 使用 admin 布局
-  components: { UploadImage },  //使用图片上传组件
+  components: { UploadImage: UploadImage },  //使用图片上传组件
 
   data() {
     return {

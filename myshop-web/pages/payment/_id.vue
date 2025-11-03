@@ -60,7 +60,7 @@
 
 <script>
 import orderApi from '@/api/order/order'
-import orderItemApi from '@/api/order/orderItem'
+import orderItemApi from '@/api/order/order-item'
 
 export default {
   data() {

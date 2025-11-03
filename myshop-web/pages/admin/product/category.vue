@@ -135,7 +135,7 @@
 <script>
 import categoryApi from "@/api/product/category"
 import attrApi from "@/api/product/attr"
-import attrValueApi from "@/api/product/attrValue"
+import attrValueApi from "@/api/product/attr-value"
 
 
 export default {

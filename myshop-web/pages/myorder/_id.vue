@@ -33,8 +33,8 @@
 
 <script>
 
-import orderApi from "@/api/order/Order";
-import orderItemApi from "@/api/order/OrderItem";
+import orderApi from "@/api/order/order";
+import orderItemApi from "@/api/order/order-item";
 
 export default {
   middleware: 'userauth',

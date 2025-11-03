@@ -63,7 +63,7 @@
 </template>
 
 <script>
-import searchApi from "@/api/search/Search";
+import searchApi from "@/api/search/search";
 
 export default {
   data() {

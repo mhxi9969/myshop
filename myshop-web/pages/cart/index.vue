@@ -56,8 +56,7 @@
 
 <script>
 import cartApi from '@/api/cart/cart'
-import productSkuApi from '@/api/product/productSku'
-import userApi from "~/api/user/user";
+import productSkuApi from '@/api/product/product-sku'
 
 export default {
   middleware: 'userauth',

@@ -39,9 +39,9 @@
 </template>
 
 <script>
-import productSkuApi from '@/api/product/productSku'
+import productSkuApi from '@/api/product/product-sku'
 import cartApi from '@/api/cart/cart'
-import searchApi from "@/api/search/Search";
+import searchApi from "@/api/search/search";
 
 export default {
   data() {

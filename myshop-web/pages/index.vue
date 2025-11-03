@@ -14,7 +14,7 @@
 
 
 <script>
-import productSkuApi from '@/api/product/productSku'
+import productSkuApi from '@/api/product/product-sku'
 
 export default {
   data() {
