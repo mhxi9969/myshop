@@ -6,11 +6,11 @@ spring:
     name: product
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/myshop_product?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://52.69.65.203:3306/myshop_product?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
     username: ${MYSQL_USERNAME}
     password: ${MYSQL_PASSWORD}
   redis:
-    host: localhost
+    host: 52.69.65.203
     port: 6379
     password:
     database: 0

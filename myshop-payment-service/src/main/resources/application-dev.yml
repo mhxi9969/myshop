@@ -44,4 +44,3 @@ paypay:
   api_key: ${PAYPAY_API_KEY}
   api_secret_key: ${PAYPAY_API_SECRET_KEY}
   assume_merchant: ${PAYPAY_ASSUME_MERCHANT}
-  redirect_url: http://localhost:3000/myorder
