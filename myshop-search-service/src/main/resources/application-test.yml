@@ -5,14 +5,14 @@ spring:
   application:
     name: search
   redis:
-    host: myshop.mhxi.top
+    host: 52.69.65.203
     port: 6379
     password:
     database: 0
     timeout: 3000ms
   elasticsearch:
     rest:
-      uris: http://myshop.mhxi.top:9200
+      uris: http://52.69.65.203:9200
 
 
 springdoc:
@@ -38,4 +38,4 @@ logging:
 eureka:
   client:
     service-url:
-      defaultZone: http://myshop.mhxi.top:8761/eureka/
+      defaultZone: http://52.69.65.203:8761/eureka/

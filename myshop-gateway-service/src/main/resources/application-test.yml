@@ -64,7 +64,7 @@ spring:
         corsConfigurations:
           '[/**]':
             allowedOrigins:
-              - "http://myshop.mhxi.top"    # 前端部署在nginx:80时，允许跨域
+              - "http://52.69.65.203"    # 前端部署在nginx:80时，允许跨域
               - "http://localhost:3000"     # 前端本地开发时，允许跨域
             allowedMethods:
               - GET
@@ -79,4 +79,4 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://myshop.mhxi.top:8761/eureka/
+      defaultZone: http://52.69.65.203:8761/eureka/

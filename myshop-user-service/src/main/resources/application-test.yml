@@ -6,11 +6,11 @@ spring:
     name: user
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://myshop.mhxi.top:3306/myshop_user?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://52.69.65.203:3306/myshop_user?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
     username: ${MYSQL_USERNAME}
     password: ${MYSQL_PASSWORD}
   redis:
-    host: myshop.mhxi.top
+    host: 52.69.65.203
     port: 6379
     password:
     database: 0
@@ -42,4 +42,4 @@ logging:
 eureka:
   client:
     service-url:
-      defaultZone: http://myshop.mhxi.top:8761/eureka/
+      defaultZone: http://52.69.65.203:8761/eureka/
