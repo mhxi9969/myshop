@@ -54,7 +54,7 @@
 import userApi from "~/api/user/user";
 
 export default {
-  middleware: 'adminauth',
+  middleware: 'admin-auth',
   data() {
     return {
       username: ''

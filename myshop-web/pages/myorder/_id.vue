@@ -37,7 +37,7 @@ import orderApi from "@/api/order/order";
 import orderItemApi from "@/api/order/order-item";
 
 export default {
-  middleware: 'userauth',
+  middleware: 'user-auth',
   data() {
     return {
       order: {},

@@ -59,7 +59,7 @@ import cartApi from '@/api/cart/cart'
 import productSkuApi from '@/api/product/product-sku'
 
 export default {
-  middleware: 'userauth',
+  middleware: 'user-auth',
   data() {
     return {
       cartList: []
