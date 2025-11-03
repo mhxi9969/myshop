@@ -39,6 +39,9 @@ aws:
     secretKey: ${AWS_S3_PASSWORD}
 
 eureka:
+  instance:
+    prefer-ip-address: true
+    ip-address: 52.69.65.203
   client:
     service-url:
       defaultZone: http://52.69.65.203:8761/eureka/

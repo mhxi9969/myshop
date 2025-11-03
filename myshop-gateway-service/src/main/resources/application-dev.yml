@@ -77,6 +77,9 @@ spring:
             allowCredentials: true
 
 eureka:
+  instance:
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
   client:
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka/
