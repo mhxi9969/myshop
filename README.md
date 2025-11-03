@@ -62,4 +62,3 @@ MyShopは、ユーザー向けショッピング、管理システム、マイ�
 * Email: [mhxi9969@gmail.com]
 * GitHub: [https://github.com/mhxi9969/myshop]
 
-> ⚡ 履歴書にGitHubリンクを添付することで、採用担当者はオンラインデモと操作ガイドをすぐ確認できます。
