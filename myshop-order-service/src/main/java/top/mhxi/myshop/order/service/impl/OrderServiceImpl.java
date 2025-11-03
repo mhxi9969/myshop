@@ -102,6 +102,9 @@ public class OrderServiceImpl implements OrderService {
             if(skuTO.getStock() < cartItemTO.getQuantity()) {
                 throw new MyShopException(ResultCode.ERROR," 库存不足");
             }
+            // 扣减库存
+            productSkuFeignClient.updateStock(skuTO.getId(), cartItemTO.getQuantity());
+
 
             // 检查和前端传来的价格一致
             for (String s : skuPrice) {

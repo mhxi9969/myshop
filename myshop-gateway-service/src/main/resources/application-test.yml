@@ -13,47 +13,59 @@ spring:
         - id: product-service
           uri: lb://product      # 写服务在eureka注册名
           predicates:
-            - Path=/product/**
+            - Path=/api/product/**
+          filters:
+            - StripPrefix=1
 
         - id: user-service
           uri: lb://user
           predicates:
-            - Path=/user/**
+            - Path=/api/user/**
+          filters:
+            - StripPrefix=1
 
         - id: file-service
           uri: lb://file
           predicates:
-            - Path=/file/**
+            - Path=/api/file/**
+          filters:
+            - StripPrefix=1
 
         - id: search-service
           uri: lb://search
           predicates:
-            - Path=/search/**
+            - Path=/api/search/**
+          filters:
+            - StripPrefix=1
 
         - id: cart-service
           uri: lb://cart
           predicates:
-            - Path=/cart/**
+            - Path=/api/cart/**
+          filters:
+            - StripPrefix=1
 
         - id: order-service
           uri: lb://order
           predicates:
-            - Path=/order/**
+            - Path=/api/order/**
+          filters:
+            - StripPrefix=1
 
         - id: payment-service
           uri: lb://payment
           predicates:
-            - Path=/payment/**
+            - Path=/api/payment/**
+          filters:
+            - StripPrefix=1
 
 
       globalcors:
         corsConfigurations:
           '[/**]':
             allowedOrigins:
-              - "http://localhost:9528"    # 允许跨域
-              - "http://localhost:3000"    # 允许跨域
-              - "http://admin.myshop.mhxi.top"    # 允许跨域
-              - "http://myshop.mhxi.top"    # 允许跨域
+              - "http://myshop.mhxi.top"    # 前端部署在nginx:80时，允许跨域
+              - "http://localhost:3000"     # 前端本地开发时，允许跨域
             allowedMethods:
               - GET
               - POST
@@ -67,4 +79,4 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://myshop.mhxi.top:8761/eureka/

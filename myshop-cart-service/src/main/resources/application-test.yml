@@ -6,7 +6,7 @@ spring:
     name: cart
 
   redis:
-    host: localhost
+    host: myshop.mhxi.top
     port: 6379
     password:
     database: 0
@@ -36,4 +36,4 @@ logging:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://myshop.mhxi.top:8761/eureka/

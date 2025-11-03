@@ -174,4 +174,10 @@ public class ProductSkuServiceImpl implements ProductSkuService {
         return new PageInfo<ProductSku>(list);
     }
 
+    @Override
+    public int updateStock(Long id, Integer num) {
+        productSkuMapper.updateStock(id, num);
+        return 0;
+    }
+
 }

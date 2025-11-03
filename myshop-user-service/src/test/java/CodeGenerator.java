@@ -46,8 +46,6 @@ public class CodeGenerator {
                 generateFile(cfg, "Service.ftl", data, packageBase + ".service", entityName + "Service.java" , basePath);
                 // 生成 ServiceImp
                 generateFile(cfg, "ServiceImpl.ftl", data, packageBase + ".service.impl", entityName + "ServiceImpl.java", basePath);
-                // 生成 VO
-                generateFile(cfg, "VO.ftl", data, packageBase + ".entity.vo", entityName + "VO.java" ,basePath);
                 // 生成 js
                 generateFile(cfg, "js.ftl", data, packageBase + ".js", entityName + ".js" ,basePath);
             }

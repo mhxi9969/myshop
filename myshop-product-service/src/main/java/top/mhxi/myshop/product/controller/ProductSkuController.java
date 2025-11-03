@@ -80,7 +80,7 @@ public class ProductSkuController {
 
 
 
-    @Operation(summary = "// 根据spu id查询所有复杂的ProductSku")
+    @Operation(summary = "根据spu id查询所有复杂的ProductSku")
     @GetMapping("/selectAllTreeBySpuId/{id}")
     public R selectAllTreeBySpuId(@PathVariable Long id) {
         List<ProductSkuTreeTO> vos = productSkuService.selectAllTreeBySpuId(id);
@@ -116,6 +116,18 @@ public class ProductSkuController {
 
         if(!info.getList().isEmpty()) {
             return R.ok().data("record", info);
+        } else {
+            return R.error();
+        }
+    }
+
+    @Operation(summary = "更新库存")
+    @GetMapping("/{id}/{num}")
+    public R updateStock(@PathVariable Long id, @PathVariable Integer num) {
+
+        int i = productSkuService.updateStock(id, num);
+        if(i == 1) {
+            return R.ok();
         } else {
             return R.error();
         }

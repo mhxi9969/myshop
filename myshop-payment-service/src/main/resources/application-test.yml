@@ -4,6 +4,12 @@ server:
 spring:
   application:
     name: payment
+  redis:
+    host: myshop.mhxi.top
+    port: 6379
+    password:
+    database: 0
+    timeout: 3000ms
 
 springdoc:
   api-docs:
@@ -29,4 +35,10 @@ logging:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://myshop.mhxi.top:8761/eureka/
+
+paypay:
+  api_key: ${PAYPAY_API_KEY}
+  api_secret_key: ${PAYPAY_API_SECRET_KEY}
+  assume_merchant: ${PAYPAY_ASSUME_MERCHANT}
+  redirect_url: http://localhost:3000/myorder
