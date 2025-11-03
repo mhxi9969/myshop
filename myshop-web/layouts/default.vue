@@ -106,6 +106,7 @@ export default {
       userApi.logout()
         .then(res => {
           this.username = ''
+          this.$router.push('/login')
         })
     },
   }
