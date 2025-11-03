@@ -5,18 +5,18 @@
     <!-- 查询条件表单 -->
     <el-form :inline="true" class="demo-form-inline">
       <el-form-item>
-        <el-input v-model="queryCondition.name" placeholder="SPU名字"/>
+        <el-input v-model="queryCondition.name" placeholder="SPU名"/>
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="selectByCondition()">查询</el-button>
-        <el-button type="default" @click="resetData()">重置</el-button>
+        <el-button type="primary" @click="selectByCondition()">検索</el-button>
+        <el-button type="default" @click="resetData()">リセット</el-button>
       </el-form-item>
     </el-form>
     <!-- 查询条件表单 -->
 
     <!-- SPU数据展示 -->
-    <el-button type="success" @click="open()">添加SPU</el-button>
+    <el-button type="success" @click="open()">SPU追加</el-button>
 
     <el-table :data="spus" style="width: 100%" @expand-change="handleExpandChange">
 
@@ -25,19 +25,19 @@
         <template slot-scope="props">
           <div>
             <!-- 加载中 -->
-            <div v-if="props.row.loading" style="text-align:center; padding:10px;">加载中...</div>
+            <div v-if="props.row.loading" style="text-align:center; padding:10px;">...</div>
 
             <!-- SKU 表格 -->
             <el-table v-else-if="props.row.skuList && props.row.skuList.length > 0" :data="props.row.skuList" size="mini">
               <el-table-column prop="id" label="SKU id"/>
-              <el-table-column prop="name" label="SKU 名称"/>
-              <el-table-column label="图片">
+              <el-table-column prop="name" label="SKU名"/>
+              <el-table-column label="SKU画像">
                 <template slot-scope="scope">
                   <img :src="scope.row.picture" width="40" height="40" class="head_pic">
                 </template>
               </el-table-column>
-              <el-table-column prop="price" label="SKU 价格"/>
-              <el-table-column prop="stock" label="SKU 库存"/>
+              <el-table-column prop="price" label="SKU価格"/>
+              <el-table-column prop="stock" label="SKU在庫"/>
 
               <!-- 动态生成属性列，这个不好写，要注意-->
               <el-table-column v-for="(attr, index) in props.row.skuList[0].attrTOs" :key="index" :label="attr.name">
@@ -47,13 +47,13 @@
 
               <el-table-column label="操作" width="180">
                 <template slot-scope="scope">
-                  <el-button type="primary" size="mini" icon="el-icon-edit" @click="edit2(scope.row.id)">修改
+                  <el-button type="primary" size="mini" icon="el-icon-edit" @click="edit2(scope.row.id)">編集
                   </el-button>
                   <el-button
                     type="danger"
                     size="mini"
                     icon="el-icon-delete"
-                    @click="deleteById2(scope.row.id, scope.row.spuId)">删除
+                    @click="deleteById2(scope.row.id, scope.row.spuId)">削除
                   </el-button>
                 </template>
               </el-table-column>
@@ -61,7 +61,7 @@
             </el-table>
 
             <el-button type="success" size="mini" style="margin-top: 8px" @click="open2(props.row)">
-              新增 SKU
+              SKU追加
             </el-button>
           </div>
         </template>
@@ -70,20 +70,20 @@
 
       <el-table-column prop="id" label="SPU id" width="180"/>
       <el-table-column prop="name" label="SPU名" width="180"/>
-      <el-table-column :formatter="formatBrandName" prop="brandId" label="品牌" width="180"/>
-      <el-table-column :formatter="formatcategory1Name" prop="category1Id" label="一级分类" width="180"/>
-      <el-table-column :formatter="formatcategory2Name" prop="category2Id" label="二级分类" width="180"/>
-      <el-table-column label="状态" width="180">
+      <el-table-column :formatter="formatBrandName" prop="brandId" label="ブランド" width="180"/>
+      <el-table-column :formatter="formatcategory1Name" prop="category1Id" label="1次カテゴリ" width="180"/>
+      <el-table-column :formatter="formatcategory2Name" prop="category2Id" label="2次カテゴリ" width="180"/>
+      <el-table-column label="状態" width="180">
         <template slot-scope="scope">
-          <span v-if="scope.row.status == 1" style="color: green">上架</span>
-          <span v-else style="color: red">下架</span>
+          <span v-if="scope.row.status == 1" style="color: green">販売中</span>
+          <span v-else style="color: red">販売停止</span>
         </template>
       </el-table-column>
 
       <el-table-column label="操作" width="180">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" icon="el-icon-edit" @click="edit(scope.row.id)">修改</el-button>
-          <el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteById(scope.row.id)">删除</el-button>
+          <el-button type="primary" size="mini" icon="el-icon-edit" @click="edit(scope.row.id)">編集</el-button>
+          <el-button type="danger" size="mini" icon="el-icon-delete" @click="deleteById(scope.row.id)">削除</el-button>
         </template>
       </el-table-column>
 
@@ -92,12 +92,14 @@
 
     <!-- 分页条 -->
     <el-pagination
-      :current-page="pageNum"
-      :page-size="pageSize"
-      :total="total"
-      style="padding: 30px 0; text-align: center;"
-      layout="total, prev, pager, next, jumper"
-      @current-change="selectByCondition"/> <!-- 分页插件，查询方法不要加括号 -->
+        background
+        layout="prev, pager, next"
+        :total="total"
+        :page-size="pageSize"
+        :current-page.sync="pageNum"
+        style="padding: 30px 0; text-align: center;"
+        @current-change="selectByCondition"
+    ></el-pagination>
     <!-- 分页条 -->
 
     <!-- spu对话框 -->
@@ -107,31 +109,31 @@
           <el-input v-model="spu.name" autocomplete="off"/>
         </el-form-item>
 
-        <el-form-item :label-width="formLabelWidth" label="品牌">
+        <el-form-item :label-width="formLabelWidth" label="ブランド名">
           <el-select v-model="spu.brandId">
             <!-- value是提交的值，是品牌id  label是展示的值，是品牌名-->
             <el-option v-for="b in brands" :key="b.id" :value="b.id" :label="b.name"/>
           </el-select>
         </el-form-item>
 
-        <el-form-item :label-width="formLabelWidth" label="一级分类">
+        <el-form-item :label-width="formLabelWidth" label="1次カテゴリ">
           <el-select v-model="spu.category1Id" @change="handleCategory1Change"> <!-- 不要加括号 -->
             <!-- value是提交的值，是品牌id  label是展示的值，是品牌名-->
             <el-option v-for="c1 in category1s" :key="c1.id" :value="c1.id" :label="c1.name"/>
           </el-select>
         </el-form-item>
 
-        <el-form-item :label-width="formLabelWidth" label="二级分类">
+        <el-form-item :label-width="formLabelWidth" label="2カテゴリ">
           <el-select v-model="spu.category2Id">
             <!-- value是提交的值，是品牌id  label是展示的值，是品牌名-->
             <el-option v-for="c2 in category2sNow" :key="c2.id" :value="c2.id" :label="c2.name"/>
           </el-select>
         </el-form-item>
 
-        <el-form-item v-if="spu.id" :label-width="formLabelWidth" label="状态">
-          <el-select v-model="spu.status" placeholder="请选择状态">
-            <el-option :value="1" label="上架"></el-option>
-            <el-option :value="0" label="下架"></el-option>
+        <el-form-item v-if="spu.id" :label-width="formLabelWidth" label="状態">
+          <el-select v-model="spu.status" placeholder="状態を選択してください">
+            <el-option :value="1" label="販売中"></el-option>
+            <el-option :value="0" label="販売停止"></el-option>
           </el-select>
         </el-form-item>
 
@@ -139,8 +141,8 @@
       </el-form>
 
       <div slot="footer" class="dialog-footer">
-        <el-button @click="cancel()">取 消</el-button>
-        <el-button type="primary" @click="save()">确 定</el-button>
+        <el-button @click="cancel()">キャンセル</el-button>
+        <el-button type="primary" @click="save()">確定</el-button>
       </div>
     </el-dialog>
     <!-- spu对话框 -->
@@ -153,15 +155,15 @@
           <el-input v-model="sku.name" autocomplete="off"/>
         </el-form-item>
 
-        <el-form-item :label-width="formLabelWidth" label="SKU图片">
+        <el-form-item :label-width="formLabelWidth" label="SKU画像">
           <UploadImage v-model="sku.picture" />
         </el-form-item>
 
-        <el-form-item :label-width="formLabelWidth" label="SKU价格">
+        <el-form-item :label-width="formLabelWidth" label="SKU価格">
           <el-input v-model="sku.price" autocomplete="off"/>
         </el-form-item>
 
-        <el-form-item :label-width="formLabelWidth" label="SKU库存">
+        <el-form-item :label-width="formLabelWidth" label="SKU在庫">
           <el-input v-model="sku.stock" autocomplete="off"/>
         </el-form-item>
 
@@ -186,8 +188,8 @@
       </el-form>
 
       <div slot="footer" class="dialog-footer">
-        <el-button @click="cancel2()">取 消</el-button>
-        <el-button type="primary" @click="save2()">确 定</el-button>
+        <el-button @click="cancel2()">キャンセル</el-button>
+        <el-button type="primary" @click="save2()">確定</el-button>
       </div>
     </el-dialog>
     <!-- sku对话框 -->
@@ -342,6 +344,7 @@ export default {
     // 打开添加spu页面
     open() {
       this.dialogFormVisible = true
+      this.spu.status = 0
     },
 
     // 打开添加sku页面
@@ -437,7 +440,7 @@ export default {
       return brand ? brand.name : '未知品牌'
     },
 
-    // 查询所有一级分类
+    // 查询所有1次カテゴリ
     selectAllcategory1s() {
       categoryApi.selectAll()
         .then((response) => {
@@ -445,10 +448,10 @@ export default {
         })
     },
 
-    // 根据一级分类id，显示一级分类名
+    // 根据1次カテゴリid，显示1次カテゴリ名
     formatcategory1Name(row, column, cellValue) {
       const category1 = this.category1s.find(b => b.id === cellValue)
-      return category1 ? category1.name : '未知一级分类'
+      return category1 ? category1.name : '未知1次カテゴリ'
     },
 
     // 查询所有2级分类
@@ -462,12 +465,12 @@ export default {
     // 根据2级分类id，显示2级分类名
     formatcategory2Name(row, column, cellValue) {
       const category2 = this.category2s.find(b => b.id === cellValue)
-      return category2 ? category2.name : '未知二级分类'
+      return category2 ? category2.name : '未知2カテゴリ'
     },
 
     // 父分类变化，根据父分类id，查询2级分类
     handleCategory1Change(id) {
-      // 强制清空二级分类值
+      // 强制清空2カテゴリ值
       this.$set(this.spu, 'category2Id', null)
 
       categoryApi.selectAll2(id)
@@ -479,7 +482,7 @@ export default {
     //
     formatStatus(row, column, cellValue) {
       const category2 = this.category2s.find(b => b.id === cellValue)
-      return category2 ? category2.name : '未知二级分类'
+      return category2 ? category2.name : '未知2カテゴリ'
     },
 
   }

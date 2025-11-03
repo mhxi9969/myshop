@@ -3,18 +3,18 @@
     <!-- 表格 -->
     <el-table :data="cartList" style="width: 100%">
 
-      <el-table-column label="" width="120">
+      <el-table-column label="商品画像" width="120">
         <template #default="scope">
           <img :src="scope.row.sku.picture" class="cart-product-img"/>
         </template>
       </el-table-column>
 
-      <el-table-column prop="sku.name" label="名称" width="200"></el-table-column>
-      <el-table-column prop="sku.price" label="单价" width="100"></el-table-column>
+      <el-table-column prop="sku.name" label="商品名" width="200"></el-table-column>
+      <el-table-column prop="sku.price" label="単価" width="100"></el-table-column>
       <el-table-column prop="quantity" label="数量" width="100"></el-table-column>
 
 
-      <el-table-column label="小计" width="120">
+      <el-table-column label="小計" width="120">
         <template #default="scope">
           ¥{{ (scope.row.quantity * scope.row.sku.price).toFixed(2) }}
         </template>
@@ -25,20 +25,20 @@
 
     <!-- 收货信息 -->
     <el-form :model="order" label-width="100px" style="margin-bottom: 20px;">
-      <el-form-item label="收货人">
+      <el-form-item label="お届け先名">
         <el-input v-model="order.receiverName"></el-input>
       </el-form-item>
-      <el-form-item label="电话">
+      <el-form-item label="電話番号">
         <el-input v-model="order.receiverPhone"></el-input>
       </el-form-item>
-      <el-form-item label="地址">
+      <el-form-item label="住所">
         <el-input v-model="order.receiverAddress"></el-input>
       </el-form-item>
     </el-form>
 
     <!-- 支付方式 -->
     <el-form label-width="100px" style="margin-bottom: 20px;">
-      <el-form-item label="支付方式">
+      <el-form-item label="支払方法">
         <el-radio-group v-model="order.payment">
           <el-radio label="paypay">paypay</el-radio>
         </el-radio-group>
@@ -48,8 +48,8 @@
 
     <!-- 总价和提交 -->
     <div class="checkout-footer">
-      <div class="total">总计：¥{{ totalPrice.toFixed(2) }}</div>
-      <el-button type="primary" @click="submitOrder">提交订单</el-button>
+      <div class="total">合計：¥{{ totalPrice.toFixed(2) }}</div>
+      <el-button type="primary" @click="submitOrder">注文を確定する</el-button>
     </div>
 
 
@@ -114,7 +114,7 @@ export default {
               //  逻辑错误（商品价格变动）
               this.$message({
                 type: 'error',
-                message: res.data.message || '下单失败，请刷新后再试'
+                message: res.data.message || '注文に失敗しました。ページを更新してもう一度お試しください。'
               })
             }
           })

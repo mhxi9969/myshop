@@ -1,22 +1,22 @@
 <template>
   <el-card class="register-card">
-    <h2>注册</h2>
-    <el-form :model="form" :rules="rules" ref="registerForm" label-width="80px">
-      <el-form-item label="用户名" prop="username">
-        <el-input v-model="form.username" placeholder="请输入用户名"></el-input>
+    <h2>会員登録</h2>
+    <el-form :model="form" :rules="rules" ref="registerForm" label-width="110px">
+      <el-form-item label="ユーザー名" prop="username">
+        <el-input v-model="form.username" placeholder="ユーザー名を入力してください"></el-input>
       </el-form-item>
 
-      <el-form-item label="密码" prop="password">
-        <el-input type="password" v-model="form.password" placeholder="请输入密码"></el-input>
+      <el-form-item label="パスワード" prop="password">
+        <el-input type="password" v-model="form.password" placeholder="パスワードを入力してください"></el-input>
       </el-form-item>
 
-      <el-form-item label="确认密码" prop="confirmPassword">
-        <el-input type="password" v-model="form.confirmPassword" placeholder="请确认密码"></el-input>
+      <el-form-item label="パスワード確認" prop="confirmPassword">
+        <el-input type="password" v-model="form.confirmPassword" placeholder="パスワードを確認してください"></el-input>
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">注册</el-button>
-        <el-button type="text" @click="$router.push('/login')">已有账号？去登录</el-button>
+        <el-button type="primary" @click="onSubmit">会員登録</el-button>
+        <el-button type="text" @click="$router.push('/login')">すでにアカウントをお持ちの方はこちら</el-button>
       </el-form-item>
     </el-form>
   </el-card>
@@ -58,7 +58,6 @@ export default {
 
           userApi.register(vo)
             .then(res => {
-              this.$message.success('注册成功');
               this.$router.push('/login');
             })
         }

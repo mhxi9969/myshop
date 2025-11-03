@@ -3,20 +3,20 @@
     <!-- 表格 -->
     <el-table :data="cartList" style="width: 100%">
       <!-- 勾选框列 -->
-      <el-table-column label="选择" width="60" align="center">
+      <el-table-column label="選択" width="60" align="center">
         <template #default="scope">
           <el-checkbox v-model="scope.row.checked" :true-label="1" :false-label="0" @change="updateCart(scope.row)"></el-checkbox>
         </template>
       </el-table-column>
 
-      <el-table-column label="商品" width="120">
+      <el-table-column label="商品画像" width="120">
         <template #default="scope">
           <img :src="scope.row.sku.picture" class="cart-product-img" />
         </template>
       </el-table-column>
 
-      <el-table-column prop="sku.name" label="名称" width="200"></el-table-column>
-      <el-table-column prop="sku.price" label="单价" width="100"></el-table-column>
+      <el-table-column prop="sku.name" label="商品名" width="200"></el-table-column>
+      <el-table-column prop="sku.price" label="単価" width="100"></el-table-column>
 
       <el-table-column label="数量" width="120">
         <template #default="scope">
@@ -25,7 +25,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="小计" width="120">
+      <el-table-column label="小計" width="120">
         <template #default="scope">
           ¥{{ (scope.row.quantity * scope.row.sku.price).toFixed(2) }}
         </template>
@@ -33,7 +33,7 @@
 
       <el-table-column label="操作" width="120">
         <template #default="scope">
-          <el-button type="danger" size="mini" @click="removeFromCart(scope.row)">删除</el-button>
+          <el-button type="danger" size="mini" @click="removeFromCart(scope.row)">削除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -43,10 +43,10 @@
 
     <div class="cart-footer">
       <div class="total-price">
-        总价：<span class="price">¥{{ totalPrice.toFixed(2) }}</span>
+        合計：<span class="price">¥{{ totalPrice.toFixed(2) }}</span>
       </div>
       <el-button type="primary" @click="goToCheckout" :disabled="cartList.length === 0">
-        去结算
+        レジへ進む
       </el-button>
     </div>
 
@@ -106,15 +106,14 @@ export default {
 
     async removeFromCart(cart) {
       try {
-        // 先调用后端删除
+        // 先调用后端削除
         await cartApi.deleteById(cart.skuId)
 
         // 更新响应式数组，Vue 能检测到
         this.cartList = this.cartList.filter(item => item.skuId !== cart.skuId)
 
-        this.$message.success('删除成功')
       } catch (err) {
-        this.$message.error('删除失败')
+
         console.error(err)
       }
     },

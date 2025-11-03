@@ -24,14 +24,14 @@
           :type="queryCondition.sortByPrice === 'asc' ? 'primary' : 'default'"
           @click="setPriceSort('asc')"
       >
-        价格低到高
+        価格の安い順
       </el-button>
       <el-button
           size="mini"
           :type="queryCondition.sortByPrice === 'desc' ? 'primary' : 'default'"
           @click="setPriceSort('desc')"
       >
-        价格高到低
+        価格の高い順
       </el-button>
     </div>
 

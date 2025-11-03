@@ -1,31 +1,30 @@
 <template>
   <div class="payment-page">
-    <h2>支付页面</h2>
 
     <!-- 订单信息 -->
     <el-card class="order-info" shadow="always">
 
-      <h3>请支付</h3>
+      <h3>お支払いください</h3>
       <a :href="order.tradeId" target="_blank" class="pay-link">
-        点击前往paypay支付
+        PayPayでお支払いに進む
       </a>
 
-      <h3>订单详情</h3>
+      <h3>注文詳細</h3>
       <el-table :data="orderItems" style="width: 100%; margin-bottom: 10px;">
 
-        <el-table-column label="" width="120">
+        <el-table-column label="商品画像" width="120">
           <template #default="scope">
             <img :src="scope.row.skuPicture" class="cart-product-img" />
           </template>
         </el-table-column>
 
 
-        <el-table-column label="商品名称">
+        <el-table-column label="商品名">
           <template slot-scope="scope">
             {{ scope.row.skuName }}
           </template>
         </el-table-column>
-        <el-table-column label="单价">
+        <el-table-column label="単価">
           <template slot-scope="scope">
             ¥{{ scope.row.skuPrice }}
           </template>
@@ -35,7 +34,7 @@
             {{ scope.row.skuQuantity }}
           </template>
         </el-table-column>
-        <el-table-column label="小计">
+        <el-table-column label="小計">
           <template slot-scope="scope">
             ¥{{ scope.row.totalPrice }}
           </template>
@@ -43,13 +42,13 @@
       </el-table>
 
       <div class="total-price">
-        总计：<span class="price">¥{{ order.totalAmount }}</span>
+        合計：<span class="price">¥{{ order.totalAmount }}</span>
       </div>
 
-      <h3>收货信息</h3>
-      <p>姓名：{{ order.receiverName }}</p>
-      <p>电话：{{ order.receiverPhone }}</p>
-      <p>地址：{{ order.receiverAddress }}</p>
+      <h3>配送情報</h3>
+      <p>お届け先名：{{ order.receiverName }}</p>
+      <p>電話番号：{{ order.receiverPhone }}</p>
+      <p>住所：{{ order.receiverAddress }}</p>
 
 
 
@@ -99,7 +98,6 @@ export default {
           console.log(s)
           if (s === 'success') {
             clearInterval(this.timer)  // 停止轮询
-            this.$message.success('支付成功！')
             this.$router.push('/myorder')
           }
         }).catch(err => {
@@ -132,6 +130,9 @@ export default {
   text-decoration: none;   /* 去除下划线 */
   color: #409eff;          /* Element Plus 主色调蓝 */
   font-weight: 500;
+  line-height: 2;          /* 增加行高，让文字区域更高 */
+  padding: 8px 12px;       /* 可选：增加上下内边距 */
+  display: inline-block;   /* 保证 padding 生效 */
 }
 
 .pay-link:hover {

@@ -1,28 +1,28 @@
 <template>
   <div class="order-detail-page">
-    <h2>订单详情</h2>
+    <h2>注文詳細</h2>
 
     <!-- 订单基本信息 -->
     <el-card class="order-info">
-      <p><strong>订单号：</strong>{{ order.id }}</p>
-      <p><strong>下单时间：</strong>{{ order.createTime }}</p>
-      <p><strong>订单状态：</strong>{{ order.status | statusFilter }}</p>
-      <p><strong>总金额：</strong>¥{{ order.totalAmount }}</p>
+      <p><strong>注文番号：</strong>{{ order.id }}</p>
+      <p><strong>注文日時：</strong>{{ order.createTime }}</p>
+      <p><strong>状態：</strong>{{ order.status | statusFilter }}</p>
+      <p><strong>合計：</strong>¥{{ order.totalAmount }}</p>
     </el-card>
 
-    <h3 style="margin-top: 20px;">订单商品列表</h3>
+    <h3 style="margin-top: 20px;">商品一覧</h3>
 
     <!-- 子订单商品列表 -->
     <el-table :data="orderItems" border>
-      <el-table-column label="商品图片" width="120">
+      <el-table-column label="商品画像" width="120">
         <template slot-scope="scope">
           <img :src="scope.row.skuPicture" class="item-img" />
         </template>
       </el-table-column>
-      <el-table-column prop="skuName" label="商品名称" />
-      <el-table-column prop="skuPrice" label="单价" />
+      <el-table-column prop="skuName" label="商品名" />
+      <el-table-column prop="skuPrice" label="単価" />
       <el-table-column prop="skuQuantity" label="数量" />
-      <el-table-column label="小计">
+      <el-table-column label="小計">
         <template slot-scope="scope">
           ¥{{ (scope.row.skuPrice * scope.row.skuQuantity).toFixed(2) }}
         </template>
@@ -69,7 +69,7 @@ export default {
       return map[type] || '未支付'
     },
     statusFilter(status) {
-      const map = { 0: '未支付', 1: '已支付', 2: '已发货', 3: '已完成', 4: '已取消' }
+      const map = { 0: '未払い', 1: '支払済み', 2: '已发货', 3: '已完成', 4: 'キャンセル済み' }
       return map[status] || '未知状态'
     }
   }

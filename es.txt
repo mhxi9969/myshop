@@ -1,0 +1,49 @@
+PUT   http://192.168.1.201:9200/sku_index/
+
+
+{
+  "mappings": {
+    "properties": {
+      "id": { "type": "long" },
+      "name": { "type": "text" },
+      "spuId": { "type": "long" },
+      "picture": { "type": "keyword" },
+      "brandID": { "type": "long" },
+      "brandName": { "type": "keyword" },
+      "brandPicture": { "type": "keyword" },
+      "category1ID": { "type": "long" },
+      "category1Name": { "type": "keyword" },
+      "category2ID": { "type": "long" },
+      "category2Name": { "type": "keyword" },
+      "price": { "type": "double" },
+      "stock": { "type": "integer" },
+      "createTime": { "type": "date", "format": "yyyy-MM-dd HH:mm:ss||strict_date_optional_time||epoch_millis" },
+      "updateTime": { "type": "date", "format": "yyyy-MM-dd HH:mm:ss||strict_date_optional_time||epoch_millis" },
+
+      "attrTOs": {
+        "type": "nested",
+        "properties": {
+          "id": { "type": "long" },
+          "name": { "type": "keyword" },
+          "categoryId": { "type": "long" },
+          "linkId": { "type": "long" },
+          "skuValueId": { "type": "long" },
+          "skuValueName": { "type": "keyword" },
+          "createTime": { "type": "date", "format": "yyyy-MM-dd HH:mm:ss||strict_date_optional_time||epoch_millis" },
+          "updateTime": { "type": "date", "format": "yyyy-MM-dd HH:mm:ss||strict_date_optional_time||epoch_millis" },
+
+          "attrValueTOs": {
+            "type": "nested",
+            "properties": {
+              "id": { "type": "long" },
+              "name": { "type": "keyword" },
+              "categoryId": { "type": "long" },
+              "createTime": { "type": "date", "format": "yyyy-MM-dd HH:mm:ss||strict_date_optional_time||epoch_millis" },
+              "updateTime": { "type": "date", "format": "yyyy-MM-dd HH:mm:ss||strict_date_optional_time||epoch_millis" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

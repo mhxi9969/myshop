@@ -23,9 +23,9 @@
               <span>商品管理</span>
             </template>
 
-            <el-menu-item index="/admin/product/brand">品牌管理</el-menu-item>
-            <el-menu-item index="/admin/product/category">分类管理</el-menu-item>
-            <el-menu-item index="/admin/product/product">商品管理</el-menu-item>
+            <el-menu-item index="/admin/product/brand">ブランド編集</el-menu-item>
+            <el-menu-item index="/admin/product/category">カテゴリ編集</el-menu-item>
+            <el-menu-item index="/admin/product/product">商品編集</el-menu-item>
           </el-submenu>
         </el-menu>
       </el-aside>
@@ -35,8 +35,8 @@
         <el-header class="header">
           <div class="header-right">
             <div  class="user-info">
-              欢迎，{{ username }}
-              <el-button type="text" @click="logout">退出登录</el-button>
+              ようこそ，{{ username }}
+              <el-button type="text" @click="logout">ログアウト</el-button>
             </div>
 
           </div>

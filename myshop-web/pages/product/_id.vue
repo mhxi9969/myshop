@@ -10,7 +10,7 @@
         <!-- 右侧信息 -->
         <el-col :span="12">
           <h2>{{ productSku.name }}</h2>
-          <p class="price">价格：¥{{ productSku.price }}</p>
+          <p class="price">価格：¥{{ productSku.price }}</p>
           <p class="description">{{ productSku.description }}</p>
 
           <!-- 动态属性选择 -->
@@ -31,7 +31,7 @@
 
           <!-- 数量和加入购物车 -->
           <el-input-number v-model="count" :min="1" :max="100" label="数量"></el-input-number>
-          <el-button type="primary" @click="toCart">加入购物车</el-button>
+          <el-button type="primary" @click="toCart">カートに追加</el-button>
         </el-col>
       </el-row>
     </el-card>
@@ -133,17 +133,10 @@ export default {
 
       cartApi.insert(cartVo)
           .then(() => {
-            this.$message({
-              type: 'success',
-              message: '添加购物车成功'
-            })
             this.$router.push('/cart')
           })
           .catch(() => {
-            this.$message({
-              type: 'error',
-              message: '请先登录'
-            })
+
           })
     }
   }

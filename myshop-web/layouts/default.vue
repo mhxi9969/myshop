@@ -10,23 +10,23 @@
         </div>
 
         <div class="header-center">
-          <el-input placeholder="搜索商品" v-model="keyword" class="search-input" @keyup.enter.native="onSearch">
+          <el-input placeholder="商品を検索" v-model="keyword" class="search-input" @keyup.enter.native="onSearch">
             <el-button slot="append" icon="el-icon-search" @click="onSearch"></el-button>
           </el-input>
         </div>
 
         <div class="header-right">
-          <el-button type="primary" @click="goCart">购物车</el-button>
-          <el-button type="success" @click="goMyOrder">我的订单</el-button>
+          <el-button type="primary" @click="goCart">カート</el-button>
+          <el-button type="success" @click="goMyOrder">マイオーダー</el-button>
 
           <div v-if="username" class="user-info">
-            欢迎，{{ username }}
-            <el-button type="danger" @click="logout">退出</el-button>
+            ようこそ，{{ username }}
+            <el-button type="danger" @click="logout">ログアウト</el-button>
           </div>
 
           <div v-else class="user-info">
-            <el-button type="danger" @click="goLogin">登录</el-button>
-            <el-button type="danger" @click="goRegister">注册</el-button>
+            <el-button type="danger" @click="goLogin">ログイン</el-button>
+            <el-button type="danger" @click="goRegister">会員登録</el-button>
           </div>
         </div>
 
@@ -40,22 +40,15 @@
       <div class="footer-content">
 
         <div class="footer-section">
-          <h3>关于我们</h3>
-          <p>MyShop 是一个在线电商平台，让购物更简单。</p>
+          <h3>会社情報</h3>
+          <p>MyShopはオンラインショッピングプラットフォームです。お買い物をもっと簡単に。</p>
         </div>
 
         <div class="footer-section">
-          <h3>帮助中心</h3>
-          <p><a href="#">购物流程</a></p>
-          <p><a href="#">支付方式</a></p>
-          <p><a href="#">售后服务</a></p>
-        </div>
-
-        <div class="footer-section">
-          <h3>联系我们</h3>
-          <p>邮箱：support@myshop.com</p>
-          <p>电话：+81-03-1234-5678</p>
-          <p>地址：东京涩谷区</p>
+          <h3>お問い合わせ</h3>
+          <p>メール：support@myshop.com</p>
+          <p>電話：+81-03-1234-5678</p>
+          <p>住所：東京都渋谷区</p>
         </div>
       </div>
 

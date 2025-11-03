@@ -2,45 +2,45 @@
   <div class="app-container">
 
     <!-- 一级分类数据展示 -->
-    <el-button type="text" @click="open()">添加一级分类</el-button>
+    <el-button type="text" @click="open()">1次カテゴリを追加</el-button>
     <ul>
       <li v-for="c1 in categorys" :key="c1.id">
         {{ c1.name }}
-        <el-button type="text" size="mini" icon="el-icon-edit" @click="edit(c1.id)">修改</el-button>
-        <el-button type="text" size="mini" icon="el-icon-delete" @click="deleteById(c1.id)">删除</el-button>
+        <el-button type="text" size="mini" icon="el-icon-edit" @click="edit(c1.id)">編集</el-button>
+        <el-button type="text" size="mini" icon="el-icon-delete" @click="deleteById(c1.id)">削除</el-button>
         <el-button type="text" size="mini" @click="toggleCategory2(c1)">
-          {{ c1.showChildren ? '隐藏二级分类' : '显示二级分类' }}
+          {{ c1.showChildren ? '2次カテゴリを非表示' : '2次カテゴリを表示' }}
         </el-button>
-        <el-button type="text" size="mini" @click="open2(c1)">添加二级分类</el-button>
+        <el-button type="text" size="mini" @click="open2(c1)">2次カテゴリを追加</el-button>
 
         <!-- 二级级分类数据展示 -->
         <ul v-if="c1.showChildren">
           <li v-for="c2 in c1.list" :key="c2.id">
             {{ c2.name }}
-            <el-button type="text" size="mini" icon="el-icon-edit" @click="edit2(c2.id)">修改</el-button>
-            <el-button type="text" size="mini" icon="el-icon-delete" @click="deleteById2(c2)">删除</el-button>
+            <el-button type="text" size="mini" icon="el-icon-edit" @click="edit2(c2.id)">編集</el-button>
+            <el-button type="text" size="mini" icon="el-icon-delete" @click="deleteById2(c2)">削除</el-button>
             <el-button type="text" size="mini" @click="toggleCategory3(c2)">
-              {{ c2.showChildren ? '隐藏属性名' : '显示属性名' }}
+              {{ c2.showChildren ? '属性名を非表示' : '属性名を表示' }}
             </el-button>
-            <el-button type="text" size="mini" @click="open3(c2)">添加属性名</el-button>
+            <el-button type="text" size="mini" @click="open3(c2)">属性名を追加</el-button>
 
             <!-- 属性名数据展示 -->
             <ul v-if="c2.showChildren">
               <li v-for="c3 in c2.list" :key="c3.id">
                 {{ c3.name }}
-                <el-button type="text" size="mini" icon="el-icon-edit" @click="edit3(c3.id)">修改</el-button>
-                <el-button type="text" size="mini" icon="el-icon-delete" @click="deleteById3(c3)">删除</el-button>
+                <el-button type="text" size="mini" icon="el-icon-edit" @click="edit3(c3.id)">編集</el-button>
+                <el-button type="text" size="mini" icon="el-icon-delete" @click="deleteById3(c3)">削除</el-button>
                 <el-button type="text" size="mini" @click="toggleCategory4(c3)">
-                  {{ c3.showChildren ? '隐藏属性值' : '显示属性值' }}
+                  {{ c3.showChildren ? '属性値を非表示' : '属性値を表示' }}
                 </el-button>
-                <el-button type="text" size="mini" @click="open4(c3)">添加属性值</el-button>
+                <el-button type="text" size="mini" @click="open4(c3)">属性値を追加</el-button>
 
                 <!-- 属性值数据展示 -->
                 <ul v-if="c3.showChildren">
                   <li v-for="c4 in c3.list" :key="c4.id">
                     {{ c4.name }}
-                    <el-button type="text" size="mini" icon="el-icon-edit" @click="edit4(c4.id)">修改</el-button>
-                    <el-button type="text" size="mini" icon="el-icon-delete" @click="deleteById4(c4)">删除</el-button>
+                    <el-button type="text" size="mini" icon="el-icon-edit" @click="edit4(c4.id)">編集</el-button>
+                    <el-button type="text" size="mini" icon="el-icon-delete" @click="deleteById4(c4)">削除</el-button>
                   </li>
                 </ul>
                 <!-- 属性值数据展示 -->
@@ -61,40 +61,40 @@
 
 
     <!-- 一级分类对话框 -->
-    <el-dialog :close-on-click-modal="false" title="一级分类" :visible.sync="dialogFormVisible" @close="cancel()">
+    <el-dialog :close-on-click-modal="false" title="1次カテゴリ" :visible.sync="dialogFormVisible" @close="cancel()">
       <el-form>
-        <el-form-item label="一级分类名称" :label-width="formLabelWidth">
+        <el-form-item label="1次カテゴリ名" :label-width="formLabelWidth">
           <el-input v-model="category.name" autocomplete="off"></el-input>
         </el-form-item>
 
-        <el-form-item label="排序" :label-width="formLabelWidth">
+        <el-form-item label="並び替え" :label-width="formLabelWidth">
           <el-input v-model="category.sort" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
 
       <div slot="footer" class="dialog-footer">
-        <el-button @click="cancel()">取 消</el-button>
-        <el-button type="primary" @click="save()">确 定</el-button>
+        <el-button @click="cancel()">キャンセル</el-button>
+        <el-button type="primary" @click="save()">確定</el-button>
       </div>
     </el-dialog>
     <!-- 一级分类对话框 -->
 
 
     <!-- 2级分类对话框 -->
-    <el-dialog title="2级分类" :close-on-click-modal="false" :visible.sync="dialogFormVisible2" @close="cancel2()">
+    <el-dialog title="2次カテゴリ" :close-on-click-modal="false" :visible.sync="dialogFormVisible2" @close="cancel2()">
       <el-form>
-        <el-form-item label="2级分类名称" :label-width="formLabelWidth">
+        <el-form-item label="2次カテゴリ名" :label-width="formLabelWidth">
           <el-input v-model="category2.name" autocomplete="off"></el-input>
         </el-form-item>
 
-        <el-form-item label="排序" :label-width="formLabelWidth">
+        <el-form-item label="並び替え" :label-width="formLabelWidth">
           <el-input v-model="category2.sort" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
 
       <div slot="footer" class="dialog-footer">
-        <el-button @click="cancel2()">取 消</el-button>
-        <el-button type="primary" @click="save2()">确 定</el-button>
+        <el-button @click="cancel2()">キャンセル</el-button>
+        <el-button type="primary" @click="save2()">確定</el-button>
       </div>
     </el-dialog>
     <!-- 2级分类对话框 -->
@@ -108,23 +108,23 @@
       </el-form>
 
       <div slot="footer" class="dialog-footer">
-        <el-button @click="cancel3()">取 消</el-button>
-        <el-button type="primary" @click="save3()">确 定</el-button>
+        <el-button @click="cancel3()">キャンセル</el-button>
+        <el-button type="primary" @click="save3()">確定</el-button>
       </div>
     </el-dialog>
     <!-- 3级属性名对话框 -->
 
     <!-- 4级属性值对话框 -->
-    <el-dialog title="属性值" :close-on-click-modal="false" :visible.sync="dialogFormVisible4" @close="cancel4()">
+    <el-dialog title="属性値" :close-on-click-modal="false" :visible.sync="dialogFormVisible4" @close="cancel4()">
       <el-form>
-        <el-form-item label=" 属性值" :label-width="formLabelWidth">
+        <el-form-item label=" 属性値" :label-width="formLabelWidth">
           <el-input v-model="attrValue.name" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
 
       <div slot="footer" class="dialog-footer">
-        <el-button @click="cancel4()">取 消</el-button>
-        <el-button type="primary" @click="save4()">确 定</el-button>
+        <el-button @click="cancel4()">キャンセル</el-button>
+        <el-button type="primary" @click="save4()">確定</el-button>
       </div>
     </el-dialog>
     <!-- 4级属性值对话框 -->
@@ -307,10 +307,6 @@ export default {
       }).then(() => {
         categoryApi.deleteById(id)
           .then((response) => {
-            this.$message({
-              type: 'success',
-              message: '删除成功!'
-            })
             this.selectAllCategory()
           })
       })
@@ -325,10 +321,6 @@ export default {
       }).then(() => {
         categoryApi.deleteById(c2.id)
           .then((response) => {
-            this.$message({
-              type: 'success',
-              message: '删除成功!'
-            })
             this.selectAllCategory2(c2.parentId)
           })
       })
@@ -342,10 +334,6 @@ export default {
         type: 'warning'
       }).then(() => {
         attrApi.deleteById(c3.id).then(() => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          })
           this.selectAllAttr(c3.categoryId) // 刷新第3级分类列表
         })
       })
@@ -359,10 +347,6 @@ export default {
         type: 'warning'
       }).then(() => {
         attrValueApi.deleteById(c4.id).then(() => {
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          })
           this.selectAllAttrValue(c4.attrId) // 刷新第4级列表
         })
       })

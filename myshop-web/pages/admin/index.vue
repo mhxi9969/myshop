@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>后台管理首页</h2>
+    <h2>管理者ホーム</h2>
   </div>
 </template>
 
