@@ -1,0 +1,82 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: gateway
+
+  cloud:
+    gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
+      routes:
+        - id: product-service
+          uri: lb://product      # 写服务在eureka注册名
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - StripPrefix=1
+
+        - id: user-service
+          uri: lb://user
+          predicates:
+            - Path=/api/user/**
+          filters:
+            - StripPrefix=1
+
+        - id: file-service
+          uri: lb://file
+          predicates:
+            - Path=/api/file/**
+          filters:
+            - StripPrefix=1
+
+        - id: search-service
+          uri: lb://search
+          predicates:
+            - Path=/api/search/**
+          filters:
+            - StripPrefix=1
+
+        - id: cart-service
+          uri: lb://cart
+          predicates:
+            - Path=/api/cart/**
+          filters:
+            - StripPrefix=1
+
+        - id: order-service
+          uri: lb://order
+          predicates:
+            - Path=/api/order/**
+          filters:
+            - StripPrefix=1
+
+        - id: payment-service
+          uri: lb://payment
+          predicates:
+            - Path=/api/payment/**
+          filters:
+            - StripPrefix=1
+
+
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://myshop.mhxi.top"    # 前端部署在nginx时，允许跨域
+              - "http://localhost:3000"     # 前端本地开发时，允许跨域
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS       # 必须允许 OPTIONS
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/

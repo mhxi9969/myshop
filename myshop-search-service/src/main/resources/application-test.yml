@@ -1,0 +1,37 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: search
+
+  data:
+    elasticsearch:
+      client:
+        rest:
+          uris: http://localhost:9200
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: method
+
+logging:
+  level:
+    root: INFO
+    top.mhxi: DEBUG
+    org.springframework.web: ERROR
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/myshop-search-service.log
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/

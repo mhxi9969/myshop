@@ -1,0 +1,39 @@
+server:
+  port: 8005
+
+spring:
+  application:
+    name: cart
+
+  redis:
+    host: 192.168.1.201
+    port: 6379
+    password:
+    database: 0
+    timeout: 3000ms
+
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: method
+
+logging:
+  level:
+    root: INFO
+    top.mhxi: DEBUG
+    org.springframework.web: ERROR
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/myshop-cart-service.log
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/

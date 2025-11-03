@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="top.mhxi.myshop.product.mapper.BrandMapper" >
+  <resultMap id="BaseResultMap" type="top.mhxi.myshop.product.entity.Brand" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="picture" property="picture" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from product_brand
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="top.mhxi.myshop.product.entity.Brand" >
+    insert into product_brand (id, name, picture, 
+      create_time, update_time)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{picture,jdbcType=VARCHAR}, 
+      NOW(), NOW())
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="top.mhxi.myshop.product.entity.Brand" >
+    update product_brand
+    set name = #{name,jdbcType=VARCHAR},
+      picture = #{picture,jdbcType=VARCHAR},
+
+      update_time = NOW()
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, name, picture, create_time, update_time
+    from product_brand
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, name, picture, create_time, update_time
+    from product_brand
+  </select>
+
+  <select id="selectByCondition" resultMap="BaseResultMap"> <!--要标注返回类型-->
+    select id, name, picture, create_time, update_time
+    from product_brand
+    WHERE 1 = 1
+    <!--注意判断不为空-->
+    <if test="name != null">
+      AND name LIKE CONCAT('%', #{name}, '%')
+    </if>
+    ORDER BY create_time DESC
+  </select>
+</mapper>

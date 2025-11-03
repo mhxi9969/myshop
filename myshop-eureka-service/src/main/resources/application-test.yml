@@ -1,0 +1,9 @@
+server:
+  port: 8080
+
+eureka:
+  client:
+    register-with-eureka: false  # 自己不注册自己
+    fetch-registry: false
+  server:
+    enable-self-preservation: false  # 开发环境关闭自我保护

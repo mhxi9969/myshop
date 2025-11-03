@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<!--mybatis-generator的配置-->
+<!--根据数据库的表，生成entity类，mapper接口，和xml文件-->
+<!--点击maven插件mybatis-generator执行-->
+<generatorConfiguration>
+
+    <context id="DB2Tables" targetRuntime="MyBatis3Simple">
+        <!-- 关闭注释 -->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+
+
+        <!-- 数据库连接配置 -->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://192.168.1.201:3306/myshop_product?useInformationSchema=true"
+                        userId="root"
+                        password="123456"/>
+
+
+        <!--  Entity 位置配置 -->
+        <javaModelGenerator targetPackage="top.mhxi.myshop.product.entity"
+                            targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+
+        <!-- Mapper XML 位置配置 -->
+        <sqlMapGenerator targetPackage="mapper"
+                         targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+
+        <!--  Mapper 接口位置配置 -->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="top.mhxi.myshop.product.mapper"
+                             targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+
+        <!--  要生成的表和它的类名 -->
+        <table tableName="product_attr" domainObjectName="Attr"></table>
+        <table tableName="product_attr_value" domainObjectName="AttrValue"></table>
+        <table tableName="product_brand" domainObjectName="Brand"></table>
+        <table tableName="product_category" domainObjectName="Category"></table>
+        <table tableName="product_product_sku" domainObjectName="ProductSku"></table>
+        <table tableName="product_product_spu" domainObjectName="ProductSpu"></table>
+        <table tableName="product_sku_attr_value" domainObjectName="SkuAttrValue"></table>
+
+    </context>
+</generatorConfiguration>

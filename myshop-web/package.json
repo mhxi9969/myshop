@@ -1,0 +1,22 @@
+{
+  "name": "myshop",
+  "version": "1.0.0",
+  "description": "myshop前台网站",
+  "author": "mhxi9969",
+  "private": true,
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development nuxt",
+    "dev:test": "cross-env NODE_ENV=test nuxt",
+    "build:test": "cross-env NODE_ENV=test nuxt build",
+    "generate:test": "cross-env NODE_ENV=test nuxt generate",
+    "start:test": "cross-env NODE_ENV=test nuxt start"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "cross-env": "^10.1.0",
+    "dotenv": "^17.2.3",
+    "element-ui": "^2.15.1",
+    "js-cookie": "^2.2.1",
+    "nuxt": "^2.0.0"
+  }
+}

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="top.mhxi.myshop.product.mapper.ProductSpuMapper" >
+  <resultMap id="BaseResultMap" type="top.mhxi.myshop.product.entity.ProductSpu" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="brand_id" property="brandId" jdbcType="BIGINT" />
+      <result column="category1_id" property="category1Id" jdbcType="BIGINT" />
+    <result column="category2_id" property="category2Id" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from product_product_spu
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <insert id="insert" parameterType="top.mhxi.myshop.product.entity.ProductSpu" >
+    insert into product_product_spu (id, name, brand_id, category1_id, category2_id, status,
+      create_time, update_time)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{brandId,jdbcType=BIGINT},
+      #{category1Id,jdbcType=BIGINT}, #{category2Id,jdbcType=BIGINT}, #{status,jdbcType=INTEGER},
+      NOW(), NOW())
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="top.mhxi.myshop.product.entity.ProductSpu" >
+    update product_product_spu
+    set name = #{name,jdbcType=VARCHAR},
+      brand_id = #{brandId,jdbcType=BIGINT},
+      category1_id = #{category1Id,jdbcType=BIGINT},
+      category2_id = #{category2Id,jdbcType=BIGINT},
+      status = #{status,jdbcType=INTEGER},
+
+      update_time = NOW()
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, name, brand_id, category1_id, category2_id, status, create_time, update_time
+    from product_product_spu
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, name, brand_id, category1_id, category2_id, status, create_time, update_time
+    from product_product_spu
+  </select>
+
+  <select id="selectByCondition" resultMap="BaseResultMap"> <!--要标注返回类型-->
+    select id, name, brand_id, category1_id, category2_id, status, create_time, update_time
+    from product_product_spu
+    WHERE 1 = 1
+    <!--注意判断不为空-->
+    <if test="name != null">
+      AND name LIKE CONCAT('%', #{name}, '%')
+    </if>
+    ORDER BY create_time DESC
+  </select>
+</mapper>

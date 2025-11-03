@@ -1,0 +1,8 @@
+
+target/
+spring.log
+logs/
+
+.nuxt
+dist
+node_modules

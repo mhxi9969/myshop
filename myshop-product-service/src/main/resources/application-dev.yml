@@ -1,0 +1,45 @@
+server:
+  port: 8001
+
+spring:
+  application:
+    name: product
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.1.201:3306/myshop_product?useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}
+  redis:
+    host: 192.168.1.201
+    port: 6379
+    password:
+    database: 0
+    timeout: 3000ms
+
+mybatis:
+  mapper-locations: classpath*:mapper/**/*.xml  # 配置xml文件的位置
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: method
+
+logging:
+  level:
+    root: INFO
+    top.mhxi: DEBUG
+    org.springframework.web: ERROR
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/myshop-product-service.log
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/

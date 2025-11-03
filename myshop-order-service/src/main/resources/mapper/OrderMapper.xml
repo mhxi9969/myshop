@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="top.mhxi.myshop.order.mapper.OrderMapper" >
+  <resultMap id="BaseResultMap" type="top.mhxi.myshop.order.entity.Order" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="total_amount" property="totalAmount" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="receiver_name" property="receiverName" jdbcType="VARCHAR" />
+    <result column="receiver_phone" property="receiverPhone" jdbcType="VARCHAR" />
+    <result column="receiver_address" property="receiverAddress" jdbcType="VARCHAR" />
+    <result column="trade_id" property="tradeId" jdbcType="VARCHAR" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="delivery_time" property="deliveryTime" jdbcType="TIMESTAMP" />
+    <result column="receive_time" property="receiveTime" jdbcType="TIMESTAMP" />
+    <result column="close_time" property="closeTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from order_order
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="top.mhxi.myshop.order.entity.Order" >
+    insert into order_order (id, user_id, total_amount, 
+      status, receiver_name, receiver_phone, 
+      receiver_address, trade_id, pay_time, 
+      delivery_time, receive_time, close_time, 
+      remark, create_time, update_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{totalAmount,jdbcType=DECIMAL}, 
+      #{status,jdbcType=INTEGER}, #{receiverName,jdbcType=VARCHAR}, #{receiverPhone,jdbcType=VARCHAR},
+      #{receiverAddress,jdbcType=VARCHAR}, #{tradeId,jdbcType=VARCHAR}, #{payTime,jdbcType=TIMESTAMP}, 
+      #{deliveryTime,jdbcType=TIMESTAMP}, #{receiveTime,jdbcType=TIMESTAMP}, #{closeTime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR}, NOW(), NOW()
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="top.mhxi.myshop.order.entity.Order" >
+    update order_order
+    set user_id = #{userId,jdbcType=BIGINT},
+      total_amount = #{totalAmount,jdbcType=DECIMAL},
+      status = #{status,jdbcType=INTEGER},
+      receiver_name = #{receiverName,jdbcType=VARCHAR},
+      receiver_phone = #{receiverPhone,jdbcType=VARCHAR},
+      receiver_address = #{receiverAddress,jdbcType=VARCHAR},
+      trade_id = #{tradeId,jdbcType=VARCHAR},
+      pay_time = #{payTime,jdbcType=TIMESTAMP},
+      delivery_time = #{deliveryTime,jdbcType=TIMESTAMP},
+      receive_time = #{receiveTime,jdbcType=TIMESTAMP},
+      close_time = #{closeTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+
+      update_time = NOW()
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, user_id, total_amount, status, receiver_name, receiver_phone, receiver_address, 
+    trade_id, pay_time, delivery_time, receive_time, close_time, remark, create_time, 
+    update_time
+    from order_order
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, user_id, total_amount, status, receiver_name, receiver_phone, receiver_address, 
+    trade_id, pay_time, delivery_time, receive_time, close_time, remark, create_time, 
+    update_time
+    from order_order where user_id = #{id}
+  </select>
+</mapper>

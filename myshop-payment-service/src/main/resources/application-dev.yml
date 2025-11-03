@@ -1,0 +1,44 @@
+server:
+  port: 8007
+
+spring:
+  application:
+    name: payment
+  redis:
+    host: 192.168.1.201
+    port: 6379
+    password:
+    database: 0
+    timeout: 3000ms
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: method
+
+logging:
+  level:
+    root: INFO
+    top.mhxi: DEBUG
+    org.springframework.web: ERROR
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/myshop-payment-service.log
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+paypay:
+  api_key: ${PAYPAY_API_KEY}
+  api_secret_key: ${PAYPAY_API_SECRET_KEY}
+  assume_merchant: ${PAYPAY_ASSUME_MERCHANT}
+  redirect_url: http://localhost:3000/myorder

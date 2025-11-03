@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="top.mhxi.myshop.product.mapper.AttrMapper" >
+  <resultMap id="BaseResultMap" type="top.mhxi.myshop.product.entity.Attr" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="category_id" property="categoryId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from product_attr
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="top.mhxi.myshop.product.entity.Attr" >
+    insert into product_attr (id, name, category_id, 
+      create_time, update_time)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{categoryId,jdbcType=BIGINT}, 
+      NOW(), NOW())
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="top.mhxi.myshop.product.entity.Attr" >
+    update product_attr
+    set name = #{name,jdbcType=VARCHAR},
+      category_id = #{categoryId,jdbcType=BIGINT},
+
+      update_time = NOW()
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select id, name, category_id, create_time, update_time
+    from product_attr
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, name, category_id, create_time, update_time
+    from product_attr where category_id = #{id}
+  </select>
+</mapper>
