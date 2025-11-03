@@ -28,9 +28,6 @@ public class PayController {
     @Value("${paypay.assume_merchant}")
     private String AssumeMerchant;
 
-    @Value("${paypay.redirect_url}")
-    private String RedirectUrl;
-
 
     @GetMapping("/create/{id}/{price}")
     public R createPayment(@PathVariable Long id, @PathVariable BigDecimal price) {
