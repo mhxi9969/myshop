@@ -57,8 +57,4 @@ MyShopは、ユーザー向けショッピング、管理システム、マイ�
 
 ---
 
-## 連絡先
-
-* Email: [mhxi9969@gmail.com]
-* GitHub: [https://github.com/mhxi9969/myshop]
 
