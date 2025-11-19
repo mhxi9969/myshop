@@ -263,6 +263,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     // 回滚库存
+    @Transactional
     @RabbitListener(queues = "order.stock.rollback.queue", ackMode = "MANUAL")
     public void rollbackStock(String msg, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws Exception {
 
@@ -278,6 +279,11 @@ public class OrderServiceImpl implements OrderService {
 
         // 如果订单未支付
         if (order.getStatus() == 0) {
+            // 把订单状态改为关闭
+            order.setStatus(2);
+            orderMapper.updateByPrimaryKey(order);
+
+            // feign回滚库存
             R r = productSkuFeignClient.rollBackStock(skuId, quantity);
 
             if (r.getSuccess() == true) {

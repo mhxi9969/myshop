@@ -69,7 +69,7 @@ export default {
       return map[type] || '未支付'
     },
     statusFilter(status) {
-      const map = { 0: '未払い', 1: '支払済み', 2: '已发货', 3: '已完成', 4: 'キャンセル済み' }
+      const map = { 0: '未払い', 1: '支払済み', 2: 'キャンセル済み' }
       return map[status] || '未知状态'
     }
   }
