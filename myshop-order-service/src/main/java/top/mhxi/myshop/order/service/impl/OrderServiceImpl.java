@@ -75,11 +75,13 @@ public class OrderServiceImpl implements OrderService {
     // 事务，生成订单
     @Transactional
     public Long insert(OrderSubmitVO orderSubmitVO, String sessionId) {
+        // 检查token，防止重复提交
         String token = orderSubmitVO.getToken();
         if (token == null) {
             throw new MyShopException(ResultCode.ERROR, "请携带token");
         }
 
+        // 原子操作，token删除成功，则继续，删除失败则抛异常
         Boolean checkToken = redisTemplate.opsForValue().getOperations().delete("order:token:" + token);
         if (checkToken == false) {
             throw new MyShopException(ResultCode.ERROR, "请勿重复提交订单");
