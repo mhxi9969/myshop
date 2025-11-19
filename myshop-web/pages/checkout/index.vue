@@ -65,7 +65,8 @@ export default {
   data() {
     return {
       cartList: [],
-      order: {}
+      order: {},
+      token: ""
     }
   },
   computed: {
@@ -75,11 +76,12 @@ export default {
   },
   created() {
     this.loadCart()
+    this.getToken()
   },
   methods: {
     async loadCart() {
       try {
-        const res = await cartApi.selectAllChecked()
+        const res = await cartApi.selectAllChecked()  //查找购物车里面选中的购物项
         const cartItemTOs = res.data.data.record || []
 
         const promises = cartItemTOs.map(async cartItem => {
@@ -96,31 +98,36 @@ export default {
 
 
     submitOrder() {
-      const skuPrice = []   // sku和价格对应，让后端确认
+      const skuPrice = []   // 发送当前显示sku价格，让后端确认，防止后端价格变化，前端不知道
 
       this.cartList.forEach(item => {
         var string = item.sku.id + ":" + item.sku.price
         skuPrice.push(string)
       })
 
-
-      orderApi.insert(this.order, skuPrice)
+      orderApi.insert(this.order, skuPrice, this.token)
           .then(res => {
+            // 成功
             if (res.data.success) {
-              // 正常下单成功
               let id = res.data.data.record
               this.$router.push('/payment/' + id)
+              // 失败，则显示提示信息
             } else {
-              //  逻辑错误（商品价格变动）
               this.$message({
                 type: 'error',
-                message: res.data.message || '注文に失敗しました。ページを更新してもう一度お試しください。'
+                message: res.data.message
               })
             }
           })
 
-    }
+    },
 
+    // 进入结算页时，拿到token，下单时带上，防止重复下单
+    getToken() {
+      orderApi.getOrderToken().then(res => {
+        this.token = res.data.data.record
+      })
+    }
 
   }
 }

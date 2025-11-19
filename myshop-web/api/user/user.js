@@ -77,4 +77,14 @@ export default {
       method: 'post',
     })
   },
+
+  //发送验证码
+  sendCode(email) {
+    return request({
+      url: `/user/user/sendCode`,
+      method: 'post',
+      data: { email }  //用对象
+    })
+  },
+
 }

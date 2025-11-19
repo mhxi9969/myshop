@@ -1,15 +1,21 @@
 package top.mhxi.myshop.product.service.impl;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
+import top.mhxi.myshop.common.handler.MyShopException;
 import top.mhxi.myshop.common.to.AttrTO;
 import top.mhxi.myshop.common.to.AttrValueTO;
+import top.mhxi.myshop.common.to.RollbackStockMessage;
+import top.mhxi.myshop.common.utils.R;
+import top.mhxi.myshop.common.utils.ResultCode;
 import top.mhxi.myshop.common.utils.SnowflakeIdGenerator;
 import top.mhxi.myshop.product.entity.Attr;
 import top.mhxi.myshop.product.entity.AttrValue;
@@ -174,10 +180,22 @@ public class ProductSkuServiceImpl implements ProductSkuService {
         return new PageInfo<ProductSku>(list);
     }
 
+    // 扣减库存
     @Override
-    public int updateStock(Long id, Integer num) {
-        productSkuMapper.updateStock(id, num);
-        return 0;
+    public void updateStock(Long id, Integer num) {
+        int rows = productSkuMapper.updateStock(id, num);
+        if (rows == 0) {
+            throw new MyShopException(ResultCode.ERROR, "库存不足");
+        }
     }
+
+    @Override
+    public void rollBackStock(Long id, Integer num) {
+        int rows = productSkuMapper.rollBackStock(id, num);
+        if (rows == 0) {
+            throw new MyShopException(ResultCode.ERROR, "回滚库存失败");
+        }
+    }
+
 
 }

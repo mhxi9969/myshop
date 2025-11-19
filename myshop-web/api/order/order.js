@@ -2,13 +2,14 @@ import request from '@/utils/request'
 
 export default {
   // 添加一个Order
-  insert(orderVO, skuPrice) {
+  insert(orderVO, skuPrice, token) {
     return request({
       url: `/order/order`,
       method: 'post',
       data: {
         order: orderVO,
-        skuPrice: skuPrice
+        skuPrice: skuPrice,
+        token: token
       }
     })
   },
@@ -49,6 +50,13 @@ export default {
   poll(id) {
     return request({
       url: `/order/order/poll/${id}`,
+      method: 'get'
+    })
+  },
+
+  getOrderToken() {
+    return request({
+      url: `/order/order/token`,
       method: 'get'
     })
   }

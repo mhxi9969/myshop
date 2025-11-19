@@ -59,8 +59,7 @@
     <!-- 一级分类数据展示 -->
 
 
-
-    <!-- 一级分类对话框 -->
+    <!-- 1级分类对话框 -->
     <el-dialog :close-on-click-modal="false" title="1次カテゴリ" :visible.sync="dialogFormVisible" @close="cancel()">
       <el-form>
         <el-form-item label="1次カテゴリ名" :label-width="formLabelWidth">
@@ -77,7 +76,7 @@
         <el-button type="primary" @click="save()">確定</el-button>
       </div>
     </el-dialog>
-    <!-- 一级分类对话框 -->
+    <!-- 1级分类对话框 -->
 
 
     <!-- 2级分类对话框 -->
@@ -99,6 +98,7 @@
     </el-dialog>
     <!-- 2级分类对话框 -->
 
+
     <!-- 3级属性名对话框 -->
     <el-dialog title="属性名" :close-on-click-modal="false" :visible.sync="dialogFormVisible3" @close="cancel3()">
       <el-form>
@@ -113,6 +113,7 @@
       </div>
     </el-dialog>
     <!-- 3级属性名对话框 -->
+
 
     <!-- 4级属性值对话框 -->
     <el-dialog title="属性値" :close-on-click-modal="false" :visible.sync="dialogFormVisible4" @close="cancel4()">
@@ -156,27 +157,21 @@ export default {
 
     }
   },
-  created() {  //页面刚创建时调用，根据是否有id，判断是新增还是修改
+
+  created() {
     this.selectAllCategory()
   },
 
-  watch: {
-    $route(to, from) {  //路径发生变化时调用init方法
-      this.selectAllCategory()
-    }
-  },
-
   methods: {
-
     // 查询所有一级Category
     selectAllCategory() {
       categoryApi.selectAll()
-        .then((response) => {
-          this.categorys = response.data.data.record
-        })
-        .catch((err) => {   // 没查到数据就会报错，就不会更新数据，这时要清空categorys
-          this.categorys = []
-        })
+          .then((response) => {
+            this.categorys = response.data.data.record
+          })
+          .catch((err) => {   // 没查到数据就会报错，就不会更新数据，这时要清空categorys
+            this.categorys = []
+          })
     },
 
     // 显示2级分类
@@ -190,26 +185,25 @@ export default {
     },
 
 
-
-    // 查询所有二级Category
+    // 查询某个1级分类的，所有二级Category
     selectAllCategory2(pid) {
       categoryApi.selectAll2(pid)
-        .then((response) => {
-          this.categorys.forEach(c => {
-            if (c.id == pid) {
-              // 用 $set 才能触发 Vue 响应式刷新
-              this.$set(c, 'list', response.data.data.record);
-            }
+          .then((response) => {
+            this.categorys.forEach(c => {
+              if (c.id == pid) {
+                // 用 $set 才能触发 Vue 响应式刷新
+                this.$set(c, 'list', response.data.data.record);
+              }
+            })
           })
-        })
-        .catch((err) => {   // 没查到数据就会报错，就不会更新数据，这时要清空categorys
-          this.categorys.forEach(c => {
-            if (c.id == pid) {
-              // 用 $set 才能触发 Vue 响应式刷新
-              this.$set(c, 'list', []);
-            }
+          .catch((err) => {   // 没查到数据就会报错，就不会更新数据，这时要清空categorys
+            this.categorys.forEach(c => {
+              if (c.id == pid) {
+                // 用 $set 才能触发 Vue 响应式刷新
+                this.$set(c, 'list', []);
+              }
+            })
           })
-        })
     },
 
     // 显示3级分类（属性名）
@@ -225,28 +219,28 @@ export default {
     // 查三级分类（属性名）
     selectAllAttr(category2Id) {
       attrApi.selectAll(category2Id)
-        .then(response => {
-          this.categorys.forEach(c1 => {
-            if (c1.list) {
-              c1.list.forEach(c2 => {
-                if (c2.id === category2Id) {
-                  this.$set(c2, 'list', response.data.data.record)
-                }
-              })
-            }
+          .then(response => {
+            this.categorys.forEach(c1 => {
+              if (c1.list) {
+                c1.list.forEach(c2 => {
+                  if (c2.id === category2Id) {
+                    this.$set(c2, 'list', response.data.data.record)
+                  }
+                })
+              }
+            })
           })
-        })
-        .catch((err) => {   // 没查到数据就会报错，就不会更新数据，这时要清空categorys
-          this.categorys.forEach(c1 => {
-            if (c1.list) {
-              c1.list.forEach(c2 => {
-                if (c2.id === category2Id) {
-                  this.$set(c2, 'list', [])
-                }
-              })
-            }
+          .catch((err) => {   // 没查到数据就会报错，就不会更新数据，这时要清空categorys
+            this.categorys.forEach(c1 => {
+              if (c1.list) {
+                c1.list.forEach(c2 => {
+                  if (c2.id === category2Id) {
+                    this.$set(c2, 'list', [])
+                  }
+                })
+              }
+            })
           })
-        })
     },
 
 
@@ -263,39 +257,37 @@ export default {
     // 查四级分类（属性值）
     selectAllAttrValue(attrId) {
       attrValueApi.selectAll(attrId)
-        .then(response => {
-          this.categorys.forEach(c1 => {
-            if (c1.list) {
-              c1.list.forEach(c2 => {
-                if (c2.list) {
-                  c2.list.forEach(c3 => {
-                    if (c3.id === attrId) {
-                      this.$set(c3, 'list', response.data.data.record)
-                    }
-                  })
-                }
-              })
-            }
+          .then(response => {
+            this.categorys.forEach(c1 => {
+              if (c1.list) {
+                c1.list.forEach(c2 => {
+                  if (c2.list) {
+                    c2.list.forEach(c3 => {
+                      if (c3.id === attrId) {
+                        this.$set(c3, 'list', response.data.data.record)
+                      }
+                    })
+                  }
+                })
+              }
+            })
           })
-        })
-        .catch((err) => {   // 没查到数据就会报错，就不会更新数据，这时要清空categorys
-          this.categorys.forEach(c1 => {
-            if (c1.list) {
-              c1.list.forEach(c2 => {
-                if (c2.list) {
-                  c2.list.forEach(c3 => {
-                    if (c3.id === attrId) {
-                      this.$set(c3, 'list', [])
-                    }
-                  })
-                }
-              })
-            }
+          .catch((err) => {   // 没查到数据就会报错，就不会更新数据，这时要清空categorys
+            this.categorys.forEach(c1 => {
+              if (c1.list) {
+                c1.list.forEach(c2 => {
+                  if (c2.list) {
+                    c2.list.forEach(c3 => {
+                      if (c3.id === attrId) {
+                        this.$set(c3, 'list', [])
+                      }
+                    })
+                  }
+                })
+              }
+            })
           })
-        })
     },
-
-
 
 
     // 根据id删除Category
@@ -306,9 +298,9 @@ export default {
         type: 'warning'
       }).then(() => {
         categoryApi.deleteById(id)
-          .then((response) => {
-            this.selectAllCategory()
-          })
+            .then((response) => {
+              this.selectAllCategory()
+            })
       })
     },
 
@@ -320,9 +312,9 @@ export default {
         type: 'warning'
       }).then(() => {
         categoryApi.deleteById(c2.id)
-          .then((response) => {
-            this.selectAllCategory2(c2.parentId)
-          })
+            .then((response) => {
+              this.selectAllCategory2(c2.parentId)
+            })
       })
     },
 
@@ -351,7 +343,6 @@ export default {
         })
       })
     },
-
 
 
     // 打开添加一级Category页面
@@ -384,62 +375,59 @@ export default {
     },
 
 
-
-
     // 打开修改一级Category页面，同时查询一个
     edit(id) {
       this.dialogFormVisible = true
       categoryApi.selectById(id)
-        .then((response) => {
-          this.category = response.data.data.record
-        })
+          .then((response) => {
+            this.category = response.data.data.record
+          })
     },
 
     // 打开修改2级Category页面，同时查询一个
     edit2(id) {
       this.dialogFormVisible2 = true
       categoryApi.selectById(id)
-        .then((response) => {
-          this.category2 = response.data.data.record
-        })
+          .then((response) => {
+            this.category2 = response.data.data.record
+          })
     },
 
     // 打开修改3级 属性名 页面，同时查询一个
     edit3(id) {
       this.dialogFormVisible3 = true
       attrApi.selectById(id)
-        .then((response) => {
-          this.attr = response.data.data.record
-        })
+          .then((response) => {
+            this.attr = response.data.data.record
+          })
     },
 
     // 打开修改4级 属性值 页面，同时查询一个
     edit4(id) {
       this.dialogFormVisible4 = true
       attrValueApi.selectById(id)
-        .then((response) => {
-          this.attrValue = response.data.data.record
-        })
+          .then((response) => {
+            this.attrValue = response.data.data.record
+          })
     },
-
 
 
     // 保存一级Category，根据是否有id，判断调用新增还是更新
     save() {
       if (!this.category.id) {  // 没有id则新增
         categoryApi.insert(this.category)
-          .then((response) => {
-            this.selectAllCategory()
-            this.category = {}  // 清空
-            this.dialogFormVisible = false
-          })
+            .then((response) => {
+              this.selectAllCategory()
+              this.category = {}  // 清空
+              this.dialogFormVisible = false
+            })
       } else {  // 有id则更新
         categoryApi.update(this.category)
-          .then((response) => {
-            this.selectAllCategory()
-            this.category = {}  // 清空
-            this.dialogFormVisible = false
-          })
+            .then((response) => {
+              this.selectAllCategory()
+              this.category = {}  // 清空
+              this.dialogFormVisible = false
+            })
       }
     },
 
@@ -447,18 +435,18 @@ export default {
     save2() {
       if (!this.category2.id) {  // 没有id则新增
         categoryApi.insert(this.category2)
-          .then((response) => {
-            this.selectAllCategory2(this.category2.parentId)
-            this.category2 = {}  // 清空
-            this.dialogFormVisible2 = false
-          })
+            .then((response) => {
+              this.selectAllCategory2(this.category2.parentId)
+              this.category2 = {}  // 清空
+              this.dialogFormVisible2 = false
+            })
       } else {  // 有id则更新
         categoryApi.update(this.category2)
-          .then((response) => {
-            this.selectAllCategory2(this.category2.parentId)
-            this.category2 = {}  // 清空
-            this.dialogFormVisible2 = false
-          })
+            .then((response) => {
+              this.selectAllCategory2(this.category2.parentId)
+              this.category2 = {}  // 清空
+              this.dialogFormVisible2 = false
+            })
       }
     },
 
@@ -466,18 +454,18 @@ export default {
     save3() {
       if (!this.attr.id) {  // 没有id → 新增
         attrApi.insert(this.attr)
-          .then((response) => {
-            this.selectAllAttr(this.attr.categoryId) // 重新查询这个二级分类下的属性名
-            this.attr = {}  // 清空
-            this.dialogFormVisible3 = false
-          })
+            .then((response) => {
+              this.selectAllAttr(this.attr.categoryId) // 重新查询这个二级分类下的属性名
+              this.attr = {}  // 清空
+              this.dialogFormVisible3 = false
+            })
       } else {  // 有id → 更新
         attrApi.update(this.attr)
-          .then((response) => {
-            this.selectAllAttr(this.attr.categoryId)
-            this.attr = {}
-            this.dialogFormVisible3 = false
-          })
+            .then((response) => {
+              this.selectAllAttr(this.attr.categoryId)
+              this.attr = {}
+              this.dialogFormVisible3 = false
+            })
       }
     },
 
@@ -485,21 +473,20 @@ export default {
     save4() {
       if (!this.attrValue.id) { // 没有id → 新增
         attrValueApi.insert(this.attrValue)
-          .then((response) => {
-            this.selectAllAttrValue(this.attrValue.attrId) // 更新属性值列表
-            this.attrValue = {}
-            this.dialogFormVisible4 = false
-          })
+            .then((response) => {
+              this.selectAllAttrValue(this.attrValue.attrId) // 更新属性值列表
+              this.attrValue = {}
+              this.dialogFormVisible4 = false
+            })
       } else { // 有id → 更新
         attrValueApi.update(this.attrValue)
-          .then((response) => {
-            this.selectAllAttrValue(this.attrValue.attrId)
-            this.attrValue = {}
-            this.dialogFormVisible4 = false
-          })
+            .then((response) => {
+              this.selectAllAttrValue(this.attrValue.attrId)
+              this.attrValue = {}
+              this.dialogFormVisible4 = false
+            })
       }
     },
-
 
 
     // 关闭添加或修改一级Category页面

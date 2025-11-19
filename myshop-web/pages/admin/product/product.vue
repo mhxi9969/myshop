@@ -1,7 +1,6 @@
 <template>
   <div class="app-container">
 
-
     <!-- 查询条件表单 -->
     <el-form :inline="true" class="demo-form-inline">
       <el-form-item>
@@ -14,6 +13,7 @@
       </el-form-item>
     </el-form>
     <!-- 查询条件表单 -->
+
 
     <!-- SPU数据展示 -->
     <el-button type="success" @click="open()">SPU追加</el-button>
@@ -28,7 +28,8 @@
             <div v-if="props.row.loading" style="text-align:center; padding:10px;">...</div>
 
             <!-- SKU 表格 -->
-            <el-table v-else-if="props.row.skuList && props.row.skuList.length > 0" :data="props.row.skuList" size="mini">
+            <el-table v-else-if="props.row.skuList && props.row.skuList.length > 0" :data="props.row.skuList"
+                      size="mini">
               <el-table-column prop="id" label="SKU id"/>
               <el-table-column prop="name" label="SKU名"/>
               <el-table-column label="SKU画像">
@@ -40,7 +41,9 @@
               <el-table-column prop="stock" label="SKU在庫"/>
 
               <!-- 动态生成属性列，这个不好写，要注意-->
+              <!--props.row.skuList[0]表示第一个sku，从中取出属性名，生成栏-->
               <el-table-column v-for="(attr, index) in props.row.skuList[0].attrTOs" :key="index" :label="attr.name">
+                <!--scope.row.attrTOs表示对于一个sku，遍历取出每一个属性值-->
                 <template slot-scope="scope">{{ scope.row.attrTOs[index].skuValueName }}</template>
               </el-table-column>
               <!-- 动态生成属性列 -->
@@ -50,10 +53,10 @@
                   <el-button type="primary" size="mini" icon="el-icon-edit" @click="edit2(scope.row.id)">編集
                   </el-button>
                   <el-button
-                    type="danger"
-                    size="mini"
-                    icon="el-icon-delete"
-                    @click="deleteById2(scope.row.id, scope.row.spuId)">削除
+                      type="danger"
+                      size="mini"
+                      icon="el-icon-delete"
+                      @click="deleteById2(scope.row.id, scope.row.spuId)">削除
                   </el-button>
                 </template>
               </el-table-column>
@@ -67,6 +70,7 @@
         </template>
       </el-table-column>
       <!-- 展开SKU数据 -->
+
 
       <el-table-column prop="id" label="SPU id" width="180"/>
       <el-table-column prop="name" label="SPU名" width="180"/>
@@ -90,6 +94,7 @@
     </el-table>
     <!-- SPU数据展示 -->
 
+
     <!-- 分页条 -->
     <el-pagination
         background
@@ -102,6 +107,7 @@
     ></el-pagination>
     <!-- 分页条 -->
 
+
     <!-- spu对话框 -->
     <el-dialog :close-on-click-modal="false" :visible.sync="dialogFormVisible" title="SPU" @close="cancel()">
       <el-form>
@@ -109,6 +115,7 @@
           <el-input v-model="spu.name" autocomplete="off"/>
         </el-form-item>
 
+        <!-- 选择品牌 -->
         <el-form-item :label-width="formLabelWidth" label="ブランド名">
           <el-select v-model="spu.brandId">
             <!-- value是提交的值，是品牌id  label是展示的值，是品牌名-->
@@ -116,27 +123,27 @@
           </el-select>
         </el-form-item>
 
+        <!-- 选择一级分类 -->
         <el-form-item :label-width="formLabelWidth" label="1次カテゴリ">
           <el-select v-model="spu.category1Id" @change="handleCategory1Change"> <!-- 不要加括号 -->
-            <!-- value是提交的值，是品牌id  label是展示的值，是品牌名-->
             <el-option v-for="c1 in category1s" :key="c1.id" :value="c1.id" :label="c1.name"/>
           </el-select>
         </el-form-item>
 
+        <!-- 选择二级分类 -->
         <el-form-item :label-width="formLabelWidth" label="2カテゴリ">
           <el-select v-model="spu.category2Id">
-            <!-- value是提交的值，是品牌id  label是展示的值，是品牌名-->
             <el-option v-for="c2 in category2sNow" :key="c2.id" :value="c2.id" :label="c2.name"/>
           </el-select>
         </el-form-item>
 
+        <!-- 改变spu状态，新增spu时不显示 -->
         <el-form-item v-if="spu.id" :label-width="formLabelWidth" label="状態">
           <el-select v-model="spu.status" placeholder="状態を選択してください">
             <el-option :value="1" label="販売中"></el-option>
             <el-option :value="0" label="販売停止"></el-option>
           </el-select>
         </el-form-item>
-
 
       </el-form>
 
@@ -156,7 +163,7 @@
         </el-form-item>
 
         <el-form-item :label-width="formLabelWidth" label="SKU画像">
-          <UploadImage v-model="sku.picture" />
+          <UploadImage v-model="sku.picture"/>
         </el-form-item>
 
         <el-form-item :label-width="formLabelWidth" label="SKU価格">
@@ -169,22 +176,21 @@
 
         <!--动态渲染属性-->
         <el-form-item
-          v-for="attr in sku.attrTOs"
-          :key="attr.id"
-          :label="attr.name"
-          :label-width="formLabelWidth"
+            v-for="attr in sku.attrTOs"
+            :key="attr.id"
+            :label="attr.name"
+            :label-width="formLabelWidth"
         >
           <el-select v-model="attr.skuValueId" placeholder="请选择">
             <el-option
-              v-for="value in attr.attrValueTOs"
-              :key="value.id"
-              :label="value.name"
-              :value="value.id"
+                v-for="value in attr.attrValueTOs"
+                :key="value.id"
+                :label="value.name"
+                :value="value.id"
             />
           </el-select>
         </el-form-item>
         <!--动态渲染属性-->
-
       </el-form>
 
       <div slot="footer" class="dialog-footer">
@@ -197,6 +203,7 @@
   </div>
 </template>
 
+
 <script>
 import brandApi from '@/api/product/brand'
 import categoryApi from '@/api/product/category'
@@ -208,6 +215,7 @@ import UploadImage from "@/components/upload-image.vue";
 
 export default {
   components: {UploadImage: UploadImage},
+
   layout: 'admin', // 使用 admin 布局
 
   data() {
@@ -220,15 +228,15 @@ export default {
       pageSize: 0, // 每页记录数
       total: 0, // 总记录数
 
-      spu: {status: 0},
+      spu: {status: 0},  //新增或修改的spu对象
       dialogFormVisible: false,
 
-      brands: [],
-      category1s: [],
-      category2s: [],
-      category2sNow: [],
+      brands: [],  // 备选的品牌
+      category1s: [], // 备选的1级分类
+      category2s: [], // 备选的所有2级分类
+      category2sNow: [],  //备选1级分类下的2级分类
 
-      sku: {
+      sku: {  //新增或修改的sku对象
         attrTOs: []
       },
       dialogFormVisible2: false,
@@ -247,22 +255,22 @@ export default {
     selectByCondition(current = 1) { // 查询，current = 1是默认页数
       this.pageNum = current
       productSpuApi.selectByCondition(this.pageNum, this.queryCondition)
-        .then((response) => {
-          this.spus = response.data.data.record.list // record是分页对象
+          .then((response) => {
+            this.spus = response.data.data.record.list // record是分页对象
 
-          // 初始化空数组，否则第一次展开sku时无法响应
-          this.spus.forEach(item => {
-            this.$set(item, 'skuList', [])
-            this.$set(item, 'loading', false)
+            // 初始化空数组，否则第一次展开sku时无法响应
+            this.spus.forEach(item => {
+              this.$set(item, 'skuList', [])
+              this.$set(item, 'loading', false)
+            })
+
+            this.pageNum = response.data.data.record.pageNum // 把数据赋值，页面自动展示页码
+            this.pageSize = response.data.data.record.pageSize
+            this.total = parseInt(response.data.data.record.total) // 要转成数字类型
           })
-
-          this.pageNum = response.data.data.record.pageNum // 把数据赋值，页面自动展示页码
-          this.pageSize = response.data.data.record.pageSize
-          this.total = parseInt(response.data.data.record.total) // 要转成数字类型
-        })
-        .catch((err) => { // 没查到数据就会报错，就不会更新数据，这时要清空categorys
-          this.spus = []
-        })
+          .catch((err) => { // 没查到数据就会报错，就不会更新数据，这时要清空
+            this.spus = []
+          })
     },
 
     // 重置查询
@@ -271,46 +279,30 @@ export default {
       this.selectByCondition()
     },
 
-    // 展开行
-    handleExpandChange(row, expanded) {
-      if (expanded && (!row.skuList || row.skuList.length === 0)) {
-        // 设置加载中
-        this.$set(row, 'loading', true)
-        productSkuApi.selectAllTreeBySpuId(row.id)
-          .then(response => {
-            this.$set(row, 'skuList', response.data.data.record || [])
-
-          })
-          .catch(() => {
-            this.$set(row, 'skuList', [])
-          })
-          .finally(() => {
-            this.$set(row, 'loading', false)
-          })
-      }
+    // 展开spu的子sku，同时查询sku
+    handleExpandChange(row) {
+      this.selectAllSku(row.id)
     },
 
     // 根据spu id查询所有sku
     selectAllSku(pid) {
-
       productSkuApi.selectAllTreeBySpuId(pid)
-        .then((response) => {
-          this.spus.forEach(c => {
-            if (c.id == pid) {
-              // 用 $set 才能触发 Vue 响应式刷新
-              this.$set(c, 'skuList', response.data.data.record)
-
-            }
+          .then((response) => {
+            this.spus.forEach(c => {
+              if (c.id == pid) {
+                // 用 $set 才能触发 Vue 响应式刷新
+                this.$set(c, 'skuList', response.data.data.record)
+              }
+            })
           })
-        })
-        .catch((err) => { // 没查到数据就会报错，就不会更新数据，这时要清空spus的skuList
-          this.spus.forEach(c => {
-            if (c.id == pid) {
-              // 用 $set 才能触发 Vue 响应式刷新
-              this.$set(c, 'skuList', [])
-            }
+          .catch((err) => { // 没查到数据就会报错，就不会更新数据，这时要清空spus的skuList
+            this.spus.forEach(c => {
+              if (c.id == pid) {
+                // 用 $set 才能触发 Vue 响应式刷新
+                this.$set(c, 'skuList', [])
+              }
+            })
           })
-        })
     },
 
     // 删除一个spu
@@ -319,12 +311,13 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      }).then(() => {
-        productSpuApi.deleteById(id)
-          .then((response) => {
-            this.selectByCondition() // 删除后再次查询
-          })
       })
+          .then(() => {
+            productSpuApi.deleteById(id)
+                .then((response) => {
+                  this.selectByCondition() // 删除后再次查询
+                })
+          })
     },
 
     // 删除一个sku
@@ -335,9 +328,9 @@ export default {
         type: 'warning'
       }).then(() => {
         productSkuApi.deleteById(id)
-          .then((response) => {
-            this.selectAllSku(pid) // 删除后再次查询
-          })
+            .then((response) => {
+              this.selectAllSku(pid) // 删除后再次查询
+            })
       })
     },
 
@@ -352,45 +345,45 @@ export default {
       this.dialogFormVisible2 = true
       this.sku.spuId = spu.id
       attrApi.selectAllTree(spu.category2Id)
-        .then((response) => {
-          this.sku.attrTOs = response.data.data.record
-        })
+          .then((response) => {
+            this.sku.attrTOs = response.data.data.record
+          })
     },
 
     // 打开修改spu页面，同时查询一个
     edit(id) {
       this.dialogFormVisible = true
       productSpuApi.selectById(id)
-        .then((response) => {
-          this.spu = response.data.data.record
-        })
+          .then((response) => {
+            this.spu = response.data.data.record
+          })
     },
 
     // 打开修改sku页面，同时查询一个
     edit2(id) {
       this.dialogFormVisible2 = true
       productSkuApi.selectByIdTree(id)
-        .then((response) => {
-          this.sku = response.data.data.record
-        })
+          .then((response) => {
+            this.sku = response.data.data.record
+          })
     },
 
     // 保存spu，根据是否有id，判断调用新增还是更新
     save() {
       if (!this.spu.id) { // 没有id则新增
         productSpuApi.insert(this.spu)
-          .then((response) => {
-            this.selectByCondition()
-            this.spu = {} // 清空
-            this.dialogFormVisible = false
-          })
+            .then((response) => {
+              this.selectByCondition()
+              this.spu = {} // 清空
+              this.dialogFormVisible = false
+            })
       } else { // 有id则更新
         productSpuApi.update(this.spu)
-          .then((response) => {
-            this.selectByCondition()
-            this.spu = {} // 清空
-            this.dialogFormVisible = false
-          })
+            .then((response) => {
+              this.selectByCondition()
+              this.spu = {} // 清空
+              this.dialogFormVisible = false
+            })
       }
     },
 
@@ -398,18 +391,18 @@ export default {
     save2() {
       if (!this.sku.id) { // 没有id则新增
         productSkuApi.insert(this.sku)
-          .then((response) => {
-            this.selectAllSku(this.sku.spuId)
-            this.sku = {attrTOs: []} // 清空
-            this.dialogFormVisible2 = false
-          })
+            .then((response) => {
+              this.selectAllSku(this.sku.spuId)
+              this.sku = {attrTOs: []} // 清空
+              this.dialogFormVisible2 = false
+            })
       } else { // 有id则更新
         productSkuApi.update(this.sku)
-          .then((response) => {
-            this.selectAllSku(this.sku.spuId)
-            this.sku = {attrTOs: []}// 清空
-            this.dialogFormVisible2 = false
-          })
+            .then((response) => {
+              this.selectAllSku(this.sku.spuId)
+              this.sku = {attrTOs: []}// 清空
+              this.dialogFormVisible2 = false
+            })
       }
     },
 
@@ -429,61 +422,61 @@ export default {
     // 查询所有品牌
     selectAllBrands() {
       brandApi.selectAll()
-        .then((response) => {
-          this.brands = response.data.data.record
-        })
+          .then((response) => {
+            this.brands = response.data.data.record
+          })
     },
 
     // 根据品牌id，显示品牌名
     formatBrandName(row, column, cellValue) {
+      // 找到brand对象，它的id等于cellValue
       const brand = this.brands.find(b => b.id === cellValue)
+      // 返回brand的名字
       return brand ? brand.name : '未知品牌'
     },
 
     // 查询所有1次カテゴリ
     selectAllcategory1s() {
       categoryApi.selectAll()
-        .then((response) => {
-          this.category1s = response.data.data.record
-        })
+          .then((response) => {
+            this.category1s = response.data.data.record
+          })
     },
 
     // 根据1次カテゴリid，显示1次カテゴリ名
     formatcategory1Name(row, column, cellValue) {
+      // 找到category1对象，它的id等于cellValue
       const category1 = this.category1s.find(b => b.id === cellValue)
+      // 返回category1的名字
       return category1 ? category1.name : '未知1次カテゴリ'
     },
 
-    // 查询所有2级分类
+    // 查询所有2级分类，为了根据2级分类id，显示2级分类名字用
     selectAllcategory2s() {
       categoryApi.all2()
-        .then((response) => {
-          this.category2s = response.data.data.record
-        })
+          .then((response) => {
+            this.category2s = response.data.data.record
+          })
     },
 
     // 根据2级分类id，显示2级分类名
     formatcategory2Name(row, column, cellValue) {
+      // 找到category2对象，它的id等于cellValue
       const category2 = this.category2s.find(b => b.id === cellValue)
+      // 返回category2的名字
       return category2 ? category2.name : '未知2カテゴリ'
     },
 
-    // 父分类变化，根据父分类id，查询2级分类
+    // 根据1级分类id，查询2级分类
     handleCategory1Change(id) {
       // 强制清空2カテゴリ值
       this.$set(this.spu, 'category2Id', null)
 
       categoryApi.selectAll2(id)
-        .then((response) => {
-          this.category2sNow = response.data.data.record
-        })
-    },
-
-    //
-    formatStatus(row, column, cellValue) {
-      const category2 = this.category2s.find(b => b.id === cellValue)
-      return category2 ? category2.name : '未知2カテゴリ'
-    },
+          .then((response) => {
+            this.category2sNow = response.data.data.record
+          })
+    }
 
   }
 }

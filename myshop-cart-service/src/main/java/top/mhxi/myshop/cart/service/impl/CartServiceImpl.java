@@ -20,22 +20,27 @@ public class CartServiceImpl implements CartService {
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    // 插入或增加购物项
+    // 增加购物项
     @Override
     public int insert(CartItemTO cartItemTO, String sessionId) {
         try {
             String key = "cart:" + sessionId;
             String field = cartItemTO.getSkuId().toString();
 
+            // 检查购物项是否已经存在
             String existing = (String) redisTemplate.opsForHash().get(key, field);
+
+            // 如果购物项存在，则添加购物项数量
             if (existing != null) {
                 CartItemTO existingCart = objectMapper.readValue(existing, CartItemTO.class);
                 existingCart.setQuantity(existingCart.getQuantity() + cartItemTO.getQuantity());
                 redisTemplate.opsForHash().put(key, field, objectMapper.writeValueAsString(existingCart));
+                // 如果购物项不存在，则新增购物项
             } else {
                 redisTemplate.opsForHash().put(key, field, objectMapper.writeValueAsString(cartItemTO));
             }
 
+            // 更新购物车的过期时间，365天
             redisTemplate.expire(key, 365, TimeUnit.DAYS);
             return 1;
         } catch (Exception e) {
@@ -57,7 +62,7 @@ public class CartServiceImpl implements CartService {
         }
     }
 
-    // 更新购物项（例如修改数量）
+    // 更新购物项（修改数量）
     @Override
     public int update(CartItemTO cartItemTO, String sessionId) {
         try {
@@ -84,6 +89,7 @@ public class CartServiceImpl implements CartService {
         try {
             String key = "cart:" + sessionId;
             Map<Object, Object> entries = redisTemplate.opsForHash().entries(key);
+            // 从值中遍历，转成CartItemTO
             for (Object value : entries.values()) {
                 CartItemTO cartItemTO = objectMapper.readValue((String) value, CartItemTO.class);
                 list.add(cartItemTO);
@@ -94,6 +100,7 @@ public class CartServiceImpl implements CartService {
         return list;
     }
 
+    // 查询购物车所有选中的购物项
     @Override
     public List<CartItemTO> selectAllChecked(String sessionId) {
         List<CartItemTO> list = new ArrayList<>();
@@ -103,7 +110,8 @@ public class CartServiceImpl implements CartService {
             for (Object value : entries.values()) {
                 CartItemTO cartItemTO = objectMapper.readValue((String) value, CartItemTO.class);
 
-                if(cartItemTO.getChecked()==1) {
+                // 返回选中的购物项
+                if (cartItemTO.getChecked() == 1) {
                     list.add(cartItemTO);
                 }
             }

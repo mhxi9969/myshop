@@ -51,8 +51,6 @@
       <p>住所：{{ order.receiverAddress }}</p>
 
 
-
-
     </el-card>
   </div>
 </template>
@@ -91,14 +89,15 @@ export default {
         })
     },
 
+    // 查询订单状态
     startPolling() {
       this.timer = setInterval(() => {
         orderApi.poll(this.order.id).then(res => {
           const s = res.data.data.record
-          console.log(s)
+
           if (s === 'success') {
             clearInterval(this.timer)  // 停止轮询
-            this.$router.push('/myorder')
+            this.$router.push('/myorder')  // 跳转到订单页
           }
         }).catch(err => {
           console.error('轮询失败:', err)

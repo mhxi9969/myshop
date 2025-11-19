@@ -4,7 +4,7 @@
       <el-row :gutter="20">
         <!-- 左侧图片 -->
         <el-col :span="12">
-          <img :src="productSku.picture" class="product-img" />
+          <img :src="productSku.picture" class="product-img"/>
         </el-col>
 
         <!-- 右侧信息 -->
@@ -63,15 +63,13 @@ export default {
   },
   methods: {
 
+    // 异步方法，等待返回后再往下执行
     async loadSku(id) {
-      // 获取当前 SKU
+      // 获取当前 SKU，await表示等待返回结果再往下执行
       const res = await productSkuApi.selectByIdTree(id)
       this.productSku = res.data.data.record
-      console.log(this.productSku)
-
 
       // 获取同 SPU 所有 SKU
-      if (!this.productSku.spuId) return
       const skuRes = await searchApi.searchBySpuID(this.productSku.spuId)
       this.brotherSkus = skuRes.data.data.record || []
 
@@ -79,9 +77,8 @@ export default {
       this.selectedAttrs = {}
       if (this.productSku.attrTOs) {
         this.productSku.attrTOs.forEach(attr => {
-          this.selectedAttrs[attr.name] = attr.skuValueName   //用 skuValueName 初始化
+          this.selectedAttrs[attr.name] = attr.skuValueName
         })
-
       }
 
       this.generateFilterAttrs()
@@ -97,34 +94,36 @@ export default {
         })
       })
       this.filterAttrs = Object.entries(attrMap).map(([name, valuesSet]) => ({
-        name,
+        name: name,
         values: Array.from(valuesSet)
       }))
     },
 
+    // 更新选中属性，跳转到对应sku
     selectAttr(attrName, value) {
-      // 更新选中属性
       this.selectedAttrs[attrName] = value
 
-      // 查找匹配 SKU
+      // 根据选择的属性名和属性值的map，查找匹配的SKU
+      // find函数，对应每个sku，返回符合要求的sku
       const matchSku = this.brotherSkus.find(sku => {
+        //对应每个sku，生成它的属性名和属性值的对应map
         const attrsObj = {}
         sku.attrTOs.forEach(a => {
-          attrsObj[a.name] = a.skuValueName   // ✅ 关键改动
+          attrsObj[a.name] = a.skuValueName
         })
+        // 根据选择的属性名和属性值的map，返回和这个map相同的sku
         return Object.entries(this.selectedAttrs).every(([k, v]) => attrsObj[k] === v)
       })
 
       // 跳转到对应 SKU
       if (matchSku && matchSku.id !== this.productSku.id) {
         this.$router.push(`/product/${matchSku.id}`)
-      } else {
-        console.warn('未找到匹配 SKU', this.selectedAttrs)
       }
     },
 
+    // 加入购物车
     toCart() {
-      if (!this.productSku.id) return
+
       const cartVo = {
         skuId: this.productSku.id,
         quantity: this.count,
@@ -134,15 +133,14 @@ export default {
       cartApi.insert(cartVo)
           .then(() => {
             this.$router.push('/cart')
-          })
-          .catch(() => {
+          }).catch(err => {
+        this.$message.error(err.response.data.message || 'ログインしてください');
+      })
 
-          })
     }
   }
 }
 </script>
-
 
 
 <style scoped>

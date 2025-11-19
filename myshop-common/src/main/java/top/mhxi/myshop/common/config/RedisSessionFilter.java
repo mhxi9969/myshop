@@ -18,7 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
-
+/*
+Spring Security 的前置拦截器，去redis中取出用户的角色
+ */
 @Component
 public class RedisSessionFilter extends OncePerRequestFilter {
 
@@ -32,8 +34,8 @@ public class RedisSessionFilter extends OncePerRequestFilter {
 
         Cookie[] cookies = request.getCookies();
         String sessionId = null;
-        System.out.println(sessionId);
 
+        // 从cookie中取出sessionId
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if ("SESSIONID".equals(cookie.getName())) {
@@ -43,9 +45,11 @@ public class RedisSessionFilter extends OncePerRequestFilter {
             }
         }
 
+        // 从redis中取出UserTO
         if (sessionId != null) {
             UserTO user = (UserTO) redisTemplate.opsForValue().get("session:" + sessionId);
             if (user != null) {
+                // 授权角色
                 GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + user.getRole());
                 UsernamePasswordAuthenticationToken auth =
                         new UsernamePasswordAuthenticationToken(user.getName(), null, Collections.singletonList(authority));

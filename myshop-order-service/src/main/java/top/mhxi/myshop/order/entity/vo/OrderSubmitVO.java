@@ -9,4 +9,5 @@ import java.util.List;
 public class OrderSubmitVO {
     private Order order;
     private List<String> skuPrice;
+    private String token;
 }

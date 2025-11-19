@@ -1,5 +1,8 @@
 package top.mhxi.myshop.common.utils;
 
+/**
+ * 雪花算法id生成器
+ */
 public class SnowflakeIdGenerator {
 
     private final static long START_STAMP = 1480166465631L;

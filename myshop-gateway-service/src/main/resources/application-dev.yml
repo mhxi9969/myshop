@@ -11,7 +11,7 @@ spring:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
       routes:
         - id: product-service
-          uri: lb://product      # 写服务在eureka注册名
+          uri: lb://product      # 写服务在eureka的注册名
           predicates:
             - Path=/api/product/**
           filters:
@@ -71,7 +71,7 @@ spring:
               - POST
               - PUT
               - DELETE
-              - OPTIONS       # 必须允许 OPTIONS
+              - OPTIONS       # 必须允许 OPTIONS，才能跨域
             allowedHeaders:
               - "*"
             allowCredentials: true

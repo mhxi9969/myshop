@@ -23,8 +23,11 @@ public class FileController {
     @PostMapping("/upload")
     public R upload(@RequestParam("file") MultipartFile file) throws IOException {
         String filename = UUID.randomUUID() + "-" + file.getOriginalFilename();
+
         File tempFile = File.createTempFile("s3upload-", null);
+        // MultipartFile转成File
         file.transferTo(tempFile);
+
         String url = s3Utils.uploadFile(tempFile, "product/" + filename);
         tempFile.delete();
         return R.ok().data("url", url);

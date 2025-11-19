@@ -44,11 +44,15 @@
     from user_user
   </select>
 
-  <select id="existsByUsername" resultType="java.lang.Boolean">
+  <select id="existsByEmail" resultType="java.lang.Boolean">
+    SELECT COUNT(*) > 0 FROM user_user WHERE email = #{email}
+  </select>
+
+  <select id="existsByName" resultType="java.lang.Boolean">
     SELECT COUNT(*) > 0 FROM user_user WHERE name = #{name}
   </select>
 
-  <select id="findByUsername" resultMap="BaseResultMap">
+  <select id="findByName" resultMap="BaseResultMap">
     SELECT id, name, password, email, phone, role, create_time, update_time FROM user_user WHERE name = #{name}
   </select>
 

@@ -14,7 +14,9 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
 
-    boolean existsByUsername(String name);
+    boolean existsByEmail(String email);
 
-    User findByUsername(String name);
+    boolean existsByName(String name);
+
+    User findByName(String name);
 }

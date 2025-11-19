@@ -17,7 +17,7 @@ import service from '@/utils/request'
 export default {
   name: 'UploadImage',
   props: {
-    value: String  // Vue 2 v-model 默认是 value
+    value: String  // Vue2 v-model 默认是 value
   },
   computed: {
     uploadUrl() {
@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     handleSuccess(res) {
-      this.$emit('input', res.data?.url || res.data.url || res.url)
+      this.$emit('input', res.data.url)
     },
     beforeUpload(file) {
       // 可加校验逻辑，例如文件类型、大小

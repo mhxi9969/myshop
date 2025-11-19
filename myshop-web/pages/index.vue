@@ -8,14 +8,12 @@
         </el-carousel-item>
       </el-carousel>
     </div>
-
+    <!--轮播图 -->
   </div>
 </template>
 
 
 <script>
-import productSkuApi from '@/api/product/product-sku'
-
 export default {
   data() {
     return {
@@ -30,6 +28,7 @@ export default {
   created() {
 
   },
+
   methods: {
 
   }
@@ -37,23 +36,11 @@ export default {
 </script>
 
 
-<style scoped>
-.product-list {
-  width: 70%;
-  margin: 0 auto;
-  /* 居中 */
-}
 
-
+<style>
 .banner-carousel {
   width: 70%;
   margin: 0 auto;
   /* 居中 */
-}
-
-#hot-product{
-  margin-left: 15%;
-  font-size: 20px;
-  margin-bottom: 25px;
 }
 </style>

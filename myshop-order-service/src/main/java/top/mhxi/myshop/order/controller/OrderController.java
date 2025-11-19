@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 @Tag(name = "Order管理")
@@ -26,6 +27,7 @@ public class OrderController {
     private OrderService orderService;
 
 
+    // 只能有一个RequestBody，如果前端提交多个，要在后端包装成一个对象
     @Operation(summary = "添加一个Order")
     @PostMapping
     public R insert(@RequestBody OrderSubmitVO orderSubmitVO,
@@ -97,6 +99,13 @@ public class OrderController {
             return R.ok().data("record","success");
         }
         return R.error();
+    }
+
+    @Operation(summary = "进入结算页时，生成token，防止订单重复提交")
+    @GetMapping("/token")
+    public R getOrderToken() {
+        String token = orderService.getOrderToken();
+        return R.ok().data("record", token);
     }
 
 }

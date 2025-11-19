@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.SearchHit;
+import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
@@ -23,11 +24,13 @@ import java.util.stream.Collectors;
 @Service
 public class SearchService {
 
+    // 简单查询
     @Autowired
     SkuRepository repository;
 
+    // 复杂查询
     @Autowired
-    private ElasticsearchRestTemplate elasticsearchRestTemplate;
+    private ElasticsearchRestTemplate esRestTemplate;
 
     public void addProduct(List<ProductSkuTreeTO> skuTreeTOS) {
         repository.saveAll(skuTreeTOS);
@@ -54,8 +57,7 @@ public class SearchService {
             for (String attr : condition.getAttrs()) {
                 String[] arr = attr.split(":"); // 格式: attrName:attrValue
                 if (arr.length == 2) {
-                    boolQuery.must(QueryBuilders.nestedQuery(
-                            "attrTOs",
+                    boolQuery.must(QueryBuilders.nestedQuery("attrTOs",
                             QueryBuilders.boolQuery()
                                     .must(QueryBuilders.termQuery("attrTOs.name", arr[0]))
                                     .must(QueryBuilders.termQuery("attrTOs.skuValueName", arr[1])),
@@ -80,17 +82,24 @@ public class SearchService {
 
         NativeSearchQuery query = queryBuilder.build();
 
-        List<ProductSkuTreeTO> content = elasticsearchRestTemplate.search(query, ProductSkuTreeTO.class)
+        // 执行查询
+        SearchHits<ProductSkuTreeTO> hits = esRestTemplate.search(query, ProductSkuTreeTO.class);
+
+        // 从hits中拿到结果，转成list
+        List<ProductSkuTreeTO> content = hits.getSearchHits()
                 .stream()
-                .map(hit -> hit.getContent())
+                .map(SearchHit::getContent)
                 .collect(Collectors.toList());
 
-        long total = elasticsearchRestTemplate.count(query, ProductSkuTreeTO.class);
+        // 从hits中拿到总记录数
+        long total = hits.getTotalHits();
 
+        // 返回分页信息
         return new PageImpl<>(content, PageRequest.of(page, size), total);
     }
 
 
+    // 根据spu id查询所有sku，可以在页面内跳转到其他sku
     public List<ProductSkuTreeTO> searchBySpuID(Long spuId) {
 
         // 构建 ES 查询：spuId 精确匹配
@@ -102,7 +111,7 @@ public class SearchService {
                 .build();
 
         // 执行查询
-        List<ProductSkuTreeTO> skus = elasticsearchRestTemplate.search(query, ProductSkuTreeTO.class)
+        List<ProductSkuTreeTO> skus = esRestTemplate.search(query, ProductSkuTreeTO.class)
                 .stream()
                 .map(hit -> hit.getContent())
                 .collect(Collectors.toList());

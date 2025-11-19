@@ -21,6 +21,11 @@ public interface ProductSkuMapper {
 
     List<ProductSku> selectByCondition(ProductSkuQueryCondition productSkuQueryCondition);
 
-    @Update("UPDATE product_product_sku SET stock = stock - #{num} WHERE id = #{id}")
-    void updateStock(@Param("id") Long id,@Param("num") Integer num);
+    // 直接执行 原子 SQL，防止超卖
+    @Update("UPDATE product_product_sku SET stock = stock - #{num} WHERE id = #{id} AND stock >= #{num}")
+    int updateStock(@Param("id") Long id, @Param("num") Integer num);
+
+    // 回滚库存
+    @Update("UPDATE product_product_sku SET stock = stock + #{num} WHERE id = #{id}")
+    int rollBackStock(@Param("id") Long id, @Param("num") Integer num);
 }

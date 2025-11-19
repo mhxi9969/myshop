@@ -74,7 +74,7 @@ public class OrderItemController {
     }
 
 
-    @Operation(summary = "查询所有OrderItem")
+    @Operation(summary = "根据Order的id，查询所有OrderItem")
     @GetMapping("/selectAll/{id}")
     public R selectAll(@PathVariable Long id) {
         List<OrderItem> orderItems = orderItemService.selectAll(id);

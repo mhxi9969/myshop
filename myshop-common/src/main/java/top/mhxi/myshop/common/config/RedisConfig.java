@@ -38,6 +38,7 @@ public class RedisConfig {
         // key 使用 String 序列化
         template.setKeySerializer(new StringRedisSerializer());
         template.setHashKeySerializer(new StringRedisSerializer());
+
         // value 使用 JSON 序列化
         template.setValueSerializer(serializer);
         template.setHashValueSerializer(serializer);
@@ -46,6 +47,9 @@ public class RedisConfig {
         return template;
     }
 
+    /*
+    设置cacheManager的序列化
+     */
     @Bean
     public RedisCacheManager cacheManager(RedisConnectionFactory factory) {
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()

@@ -32,7 +32,7 @@ public class ProductSkuController {
     public R insert(@RequestBody ProductSkuTreeTO vo) {
 
         int i = productSkuService.insert(vo);
-        if(i == 1) {
+        if (i == 1) {
             return R.ok();
         } else {
             return R.error();
@@ -45,7 +45,7 @@ public class ProductSkuController {
     @DeleteMapping("/{id}")
     public R deleteById(@PathVariable Long id) {
         int i = productSkuService.deleteById(id);
-        if(i == 1) {
+        if (i == 1) {
             return R.ok();
         } else {
             return R.error();
@@ -58,7 +58,7 @@ public class ProductSkuController {
     public R update(@RequestBody ProductSkuTreeTO vo) {
 
         int i = productSkuService.update(vo);
-        if(i == 1) {
+        if (i == 1) {
             return R.ok();
         } else {
             return R.error();
@@ -71,7 +71,7 @@ public class ProductSkuController {
     public R selectByIdTree(@PathVariable Long id) {
         ProductSkuTreeTO vo = productSkuService.selectByIdTree(id);
 
-        if(vo != null) {
+        if (vo != null) {
             return R.ok().data("record", vo);
         } else {
             return R.error();
@@ -79,13 +79,12 @@ public class ProductSkuController {
     }
 
 
-
     @Operation(summary = "根据spu id查询所有复杂的ProductSku")
     @GetMapping("/selectAllTreeBySpuId/{id}")
     public R selectAllTreeBySpuId(@PathVariable Long id) {
         List<ProductSkuTreeTO> vos = productSkuService.selectAllTreeBySpuId(id);
 
-        if(!vos.isEmpty()) {
+        if (!vos.isEmpty()) {
 
             return R.ok().data("record", vos);
         } else {
@@ -99,7 +98,7 @@ public class ProductSkuController {
     public R selectById(@PathVariable Long id) {
         ProductSku productSku = productSkuService.selectById(id);
 
-        if(productSku != null) {
+        if (productSku != null) {
             top.mhxi.myshop.common.to.ProductSkuTO skuTO = new top.mhxi.myshop.common.to.ProductSkuTO();
             BeanUtils.copyProperties(productSku, skuTO);
             return R.ok().data("record", skuTO);
@@ -114,7 +113,7 @@ public class ProductSkuController {
                                @RequestBody ProductSkuQueryCondition productSkuQueryCondition) {
         PageInfo<ProductSku> info = productSkuService.selectByCondition(current, productSkuQueryCondition);
 
-        if(!info.getList().isEmpty()) {
+        if (!info.getList().isEmpty()) {
             return R.ok().data("record", info);
         } else {
             return R.error();
@@ -122,15 +121,17 @@ public class ProductSkuController {
     }
 
     @Operation(summary = "更新库存")
-    @GetMapping("/{id}/{num}")
+    @GetMapping("/updateStock/{id}/{num}")
     public R updateStock(@PathVariable Long id, @PathVariable Integer num) {
-
-        int i = productSkuService.updateStock(id, num);
-        if(i == 1) {
-            return R.ok();
-        } else {
-            return R.error();
-        }
+        productSkuService.updateStock(id, num);
+        return R.ok();
     }
 
+    @Operation(summary = "回滚库存")
+    @GetMapping("/rollBackStock/{id}/{num}")
+    public R rollBackStock(@PathVariable Long id, @PathVariable Integer num) {
+        productSkuService.rollBackStock(id, num);
+        return R.ok();
+    }
 }
+

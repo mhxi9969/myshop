@@ -14,4 +14,6 @@ public interface OrderService {
     List<Order> selectAll(String sessionId);
 
     boolean poll(String id);
+
+    String getOrderToken();
 }

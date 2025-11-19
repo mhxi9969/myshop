@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import userApi from "~/api/user/user";
 
 export default {
   layout: 'admin', // 使用 admin 布局

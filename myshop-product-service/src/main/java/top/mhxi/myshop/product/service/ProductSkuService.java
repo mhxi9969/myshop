@@ -18,6 +18,7 @@ public interface ProductSkuService {
     ProductSku selectById(Long id);
     PageInfo<ProductSku> selectByCondition(int current, ProductSkuQueryCondition productSkuQueryCondition);
 
+    void updateStock(Long id, Integer num);
 
-    int updateStock(Long id, Integer num);
+    void rollBackStock(Long id, Integer num);
 }

@@ -65,6 +65,6 @@
     select id, user_id, total_amount, status, receiver_name, receiver_phone, receiver_address, 
     trade_id, pay_time, delivery_time, receive_time, close_time, remark, create_time, 
     update_time
-    from order_order where user_id = #{id}
+    from order_order where user_id = #{id} order by create_time desc
   </select>
 </mapper>

@@ -11,7 +11,7 @@
       </el-form-item>
 
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">ログイン</el-button>
+        <el-button type="primary"  @click="onSubmit">ログイン</el-button>
         <el-button type="text" @click="$router.push('/register')">アカウントをお持ちでない方はこちら</el-button>
       </el-form-item>
     </el-form>

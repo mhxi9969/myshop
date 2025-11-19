@@ -9,15 +9,4 @@ import top.mhxi.myshop.order.OrderServiceApplication;
 @SpringBootTest(classes = OrderServiceApplication.class)
 public class OrderTest {
 
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
-
-    @Test
-    public void testRedis() {
-        rabbitTemplate.convertAndSend(
-                RabbitMQConfig.EXCHANGE_NAME,
-                RabbitMQConfig.ROUTING_KEY,
-                "Hello RabbitMQ!"
-        );
-    }
 }

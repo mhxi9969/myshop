@@ -2,6 +2,7 @@
 target/
 spring.log
 logs/
+.idea
 
 .nuxt
 dist

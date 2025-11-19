@@ -73,34 +73,36 @@ export default {
       return this.cartList.reduce((sum, item) => sum + item.sku.price * item.quantity, 0)
     }
   },
+
   methods: {
     async loadCart() {
       try {
         const res = await cartApi.selectAll()
         const cartVos = res.data.data.record || []
 
-        const promises = cartVos.map(async cart => {
-          const skuRes = await productSkuApi.selectById(cart.skuId)
-          cart.sku = skuRes.data.data.record
-          return cart
+        // 对每个购物项，查找对应的sku详细信息展示
+        const list = cartVos.map(async item => {
+          const skuRes = await productSkuApi.selectById(item.skuId)
+          item.sku = skuRes.data.data.record
+          return item
         })
-        this.cartList = await Promise.all(promises)
+        // 等待完成后，赋值给购物车
+        this.cartList = await Promise.all(list)
       } catch (err) {
-        console.error('加载购物车失败', err)
         this.cartList = []
       }
     },
 
-    async updateCart(cart) {
+    // 更新
+    async updateCart(item) {
       try {
         await cartApi.update({
-          id: cart.id,
-          skuId: cart.skuId,
-          quantity: cart.quantity,
-          checked: cart.checked,
+          id: item.id,
+          skuId: item.skuId,
+          quantity: item.quantity,
+          checked: item.checked,
         })
       } catch (err) {
-
       }
     },
 
@@ -108,16 +110,14 @@ export default {
       try {
         // 先调用后端削除
         await cartApi.deleteById(cart.skuId)
-
         // 更新响应式数组，Vue 能检测到
         this.cartList = this.cartList.filter(item => item.skuId !== cart.skuId)
-
       } catch (err) {
-
         console.error(err)
       }
     },
 
+    // 去结算
     goToCheckout() {
       this.$router.push('/checkout')  // 跳转到结算页
     },

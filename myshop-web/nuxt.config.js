@@ -18,24 +18,6 @@ export default {
     { src: '~/plugins/nuxt-plugin.js', ssr: false }
   ],
 
-  // 防止热更新卡顿
-  // build: {
-  //   cache: true,
-  //   parallel: true,
-  //   hardSource: true, // 开启硬盘缓存
-  //
-  //   watch: ['pages', 'layouts', 'components'], // 可选，监听特定目录
-  //   extend(config, { isDev, isClient }) {
-  //     if (isDev && isClient) {
-  //       config.watchOptions = {
-  //         aggregateTimeout: 1000,  // ms, 保存后等待时间，避免重复构建
-  //         poll: 1000,     // 文件轮询间隔
-  //         ignored: /node_modules/   // 忽略 node_modules
-  //       }
-  //     }
-  //   }
-  // },
-
   head: {
     title: 'myshop - 在线购物网站',
     meta: [

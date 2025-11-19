@@ -19,7 +19,7 @@ public class SearchController {
     @Autowired
     SearchService searchService;
 
-    // 新增商品
+    // 上架商品
     @PostMapping("/add")
     public R addProduct(@RequestBody List<ProductSkuTreeTO> skuTreeTOS) {
 

@@ -13,6 +13,9 @@ public interface ProductSkuFeignClient {
     @GetMapping("/product/productSku/{id}")
     R selectById(@PathVariable Long id);
 
-    @GetMapping("/product/productSku/{id}/{num}")
+    @GetMapping("/product/productSku/updateStock/{id}/{num}")
     public R updateStock(@PathVariable Long id, @PathVariable Integer num);
+
+    @GetMapping("/product/productSku/rollBackStock/{id}/{num}")
+    public R rollBackStock(@PathVariable Long id, @PathVariable Integer num);
 }

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.security.access.prepost.PreAuthorize;
 import top.mhxi.myshop.common.utils.R;
 import top.mhxi.myshop.common.to.UserTO;
+import top.mhxi.myshop.user.entity.vo.EmailVO;
 import top.mhxi.myshop.user.entity.vo.RegisterVO;
 import top.mhxi.myshop.user.entity.User;
 import top.mhxi.myshop.user.service.UserService;
@@ -114,7 +115,7 @@ public class UserController {
     @Operation(summary = "用户注册")
     @PostMapping("/register")
     public R register(@Valid @RequestBody RegisterVO vo) {
-        int i = userService.register(vo.getName(), vo.getPassword());
+        int i = userService.register(vo);
         if (i == 1) {
             return R.ok();
         } else {
@@ -128,6 +129,7 @@ public class UserController {
     @PostMapping("/login")
     public R login(@RequestBody RegisterVO vo, HttpServletResponse response) {
 
+        // 登录，往redis中放入sessionid，然后作为cookie，返回给前端
         String sessionId = userService.login(vo.getName(), vo.getPassword());
 
         ResponseCookie cookie = ResponseCookie.from("SESSIONID", sessionId)
@@ -164,6 +166,14 @@ public class UserController {
         } else {
             return R.error();
         }
+    }
+
+    @Operation(summary = "发送验证码")
+    @PostMapping("/sendCode")
+    // string要用对象包装起来，否则会出错
+    public R sendCode(@RequestBody EmailVO vo) {
+        userService.sendCode(vo.getEmail());
+        return R.ok();
     }
 
 }

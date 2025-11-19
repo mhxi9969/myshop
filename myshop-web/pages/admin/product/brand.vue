@@ -13,6 +13,7 @@
     </el-form>
     <!-- 查询条件表单 -->
 
+
     <!-- 数据展示 -->
     <el-button type="success" @click="open()">ブランド追加</el-button>
 
@@ -46,8 +47,10 @@
         :current-page.sync="pageNum"
         style="padding: 30px 0; text-align: center;"
         @current-change="selectByCondition"
-    ></el-pagination>
+    >
+    </el-pagination>
     <!-- 分页条 -->
+
 
     <!-- 对话框 -->
     <el-dialog :close-on-click-modal="false" :visible.sync="dialogFormVisible" title="ブランド" @close="cancel()">
@@ -59,7 +62,6 @@
         <el-form-item :label-width="formLabelWidth" label="ブランド画像" prop="picture">
           <UploadImage v-model="brand.picture"/>
         </el-form-item>
-
       </el-form>
 
       <div slot="footer" class="dialog-footer">
@@ -72,10 +74,10 @@
   </div>
 </template>
 
+
 <script>
 import brandApi from '@/api/product/brand'
 import UploadImage from '@/components/upload-image.vue'
-
 
 export default {
   layout: 'admin', // 使用 admin 布局
@@ -94,6 +96,7 @@ export default {
         name: '',
         picture: ''
       },
+
       dialogFormVisible: false,
 
       rules: { // 校验规则
@@ -107,14 +110,7 @@ export default {
   created() {
     this.selectByCondition()
   },
-  watch: {
-    brand: {
-      handler(newVal) {
-        console.log('brand object updated:', newVal)
-      },
-      deep: true
-    }
-  },
+
   methods: {
     // 条件查询带分页
     selectByCondition(current = 1) { // 查询，current = 1是默认页数
@@ -124,10 +120,9 @@ export default {
             this.brands = response.data.data.record.list // record是分页对象
             this.pageNum = response.data.data.record.pageNum // 把数据赋值，页面自动展示页码
             this.pageSize = response.data.data.record.pageSize
-            this.total = parseInt(response.data.data.record.total) // 要转成数字类型
+            this.total = parseInt(response.data.data.record.total) // 要从字符串转成数字类型
           })
           .catch(err => { // 没查到数据就会报错，就不会更新数据，这时要清空brands
-            console.log(err)
             this.brands = []
           })
     },
@@ -168,37 +163,28 @@ export default {
 
     // 保存brand，根据是否有id，判断调用新增还是更新
     save() {
-      // 校验数据
-      this.$refs.brandForm.validate((valid) => {
-        if (!valid) {
-          return // 校验失败，阻止提交
-        }
-
-        if (!this.brand.id) { // 没有id则新增
-          brandApi.insert(this.brand)
-              .then((response) => {
-                this.selectByCondition()
-                this.brand = {} // 清空
-                this.dialogFormVisible = false
-              })
-        } else { // 有id则更新
-          brandApi.update(this.brand)
-              .then((response) => {
-                this.selectByCondition()
-                this.brand = {} // 清空
-                this.dialogFormVisible = false
-              })
-        }
-      })
+      if (!this.brand.id) { // 没有id则新增
+        brandApi.insert(this.brand)
+            .then((response) => {
+              this.selectByCondition()
+              this.brand = {} // 清空
+              this.dialogFormVisible = false
+            })
+      } else { // 有id则更新
+        brandApi.update(this.brand)
+            .then((response) => {
+              this.selectByCondition()
+              this.brand = {} // 清空
+              this.dialogFormVisible = false
+            })
+      }
     },
 
     // 关闭添加或修改页面
     cancel() {
       this.dialogFormVisible = false
       this.brand = {} // 清空
-    },
-
-
+    }
   }
 }
 </script>

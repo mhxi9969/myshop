@@ -11,5 +11,10 @@ public class RegisterVO {
     private String name;
 
     @NotBlank  // 校验
+    private String email;
+
+    @NotBlank  // 校验
     private String password;
+
+    private String code;
 }

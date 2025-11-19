@@ -30,11 +30,12 @@
           </div>
         </div>
 
-
       </div>
     </header>
 
-    <nuxt />
+
+    <nuxt/>
+
 
     <footer id="footer">
       <div class="footer-content">
@@ -59,9 +60,9 @@
   </div>
 </template>
 
+
 <script>
 import userApi from '@/api/user/user'
-import cookie from 'js-cookie'
 
 export default {
   data() {
@@ -70,6 +71,7 @@ export default {
       username: ''
     }
   },
+
   created() {
     this.getUserBySession()
   },
@@ -78,36 +80,38 @@ export default {
     onSearch() {
       const keyword = this.keyword ? this.keyword.trim() : '';
       // 空字符串也传空字符串，而不是 undefined
-      this.$router.push({ path: '/search/' + keyword});
+      this.$router.push({path: '/search/' + keyword});
     },
+
     goLogin() {
       this.$router.push('/login')
     },
+
     goRegister() {
       this.$router.push('/register')
     },
+
     goCart() {
       this.$router.push('/cart')
     },
+
     goMyOrder() {
       this.$router.push('/myorder')
     },
 
     getUserBySession() {
       userApi.getUserBySession()
-        .then(res => {
-          this.username = res.data.data.record.name
-
-        })
-        .catch()
+          .then(res => {
+            this.username = res.data.data.record.name
+          })
     },
 
     logout() {
       userApi.logout()
-        .then(res => {
-          this.username = ''
-          this.$router.push('/login')
-        })
+          .then(res => {
+            this.username = ''
+            this.$router.push('/login')
+          })
     },
   }
 }
@@ -140,7 +144,6 @@ export default {
   /* 设置你想要的颜色 */
 }
 
-
 .site-name {
   font-size: 18px;
   font-weight: bold;
@@ -165,7 +168,6 @@ export default {
   font-weight: 500;
   color: #333;
 }
-
 
 .footer {
   margin-top: 50px;
