@@ -19,11 +19,13 @@
       </el-form-item>
 
       <el-form-item label="認証コード" prop="confirmPassword">
-        <el-input  v-model="form.code" placeholder="code"></el-input>
+        <el-input  v-model="form.code" placeholder="認証コード"></el-input>
       </el-form-item>
 
       <el-form-item style="white-space: nowrap;">
-        <el-button type="success"  @click="sendCode">認証コードを送信</el-button>
+        <el-button type="success"  @click="sendCode" :disabled="countdown > 0">
+          {{ countdown > 0 ? countdown + '秒后再发送' : '認証コードを送信' }}
+        </el-button>
         <el-button type="primary"  @click="onSubmit">会員登録</el-button>
       </el-form-item>
 
@@ -60,12 +62,36 @@ export default {
         password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
         confirmPassword: [{ required: true, validator: validateConfirm, trigger: 'blur' }],
         code: [{ required: true, message: '请输入認証コード', trigger: 'blur' }]
-      }
+      },
+      countdown: 0, // 倒计时
+      timer: null
     };
   },
   methods: {
     sendCode() {
-      userApi.sendCode(this.form.email).then(res => {})
+      if (this.countdown > 0) {
+        return // 倒计时期间不可点击
+      }
+
+      userApi.sendCode(this.form.email).then(res => {
+        if (res.data.code === 20000) {
+          this.$message.success(res.data.message)
+          // 开始倒计时
+          this.countdown = 60
+          this.timer = setInterval(() => {
+            this.countdown--
+            if (this.countdown <= 0) {
+              clearInterval(this.timer)
+              this.timer = null
+            }
+          }, 1000)
+
+        } else {
+          this.$message.error(res.data.message)
+        }
+      })
+
+
     },
 
     onSubmit() {

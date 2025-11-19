@@ -3,8 +3,10 @@ package top.mhxi.myshop.product.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import top.mhxi.myshop.common.handler.MyShopException;
 import top.mhxi.myshop.common.to.AttrTO;
 import top.mhxi.myshop.common.to.AttrValueTO;
+import top.mhxi.myshop.common.utils.ResultCode;
 import top.mhxi.myshop.common.utils.SnowflakeIdGenerator;
 import top.mhxi.myshop.product.entity.AttrValue;
 
@@ -39,6 +41,11 @@ public class AttrServiceImpl implements AttrService {
 
 
     public int deleteById(Long id) {
+        // 检查属性下是否有属性值，有则不删除
+        List<AttrValue> attrValues = attrValueMapper.selectAll(id);
+        if (!attrValues.isEmpty()) {
+            throw new MyShopException(ResultCode.ERROR, "该属性下有属性值，无法删除");
+        }
         return attrMapper.deleteByPrimaryKey(id);
     }
 

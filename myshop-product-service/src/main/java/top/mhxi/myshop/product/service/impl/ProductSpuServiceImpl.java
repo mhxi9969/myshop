@@ -5,11 +5,16 @@ import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.internal.bytebuddy.implementation.bytecode.Throw;
+import top.mhxi.myshop.common.handler.MyShopException;
 import top.mhxi.myshop.common.to.ProductSkuTreeTO;
+import top.mhxi.myshop.common.utils.ResultCode;
 import top.mhxi.myshop.common.utils.SnowflakeIdGenerator;
+import top.mhxi.myshop.product.entity.ProductSku;
 import top.mhxi.myshop.product.entity.ProductSpu;
 import top.mhxi.myshop.product.entity.query.ProductSpuQueryCondition;
 import top.mhxi.myshop.product.feigh.SearchFeignClient;
+import top.mhxi.myshop.product.mapper.ProductSkuMapper;
 import top.mhxi.myshop.product.mapper.ProductSpuMapper;
 import top.mhxi.myshop.product.entity.ProductSpu;
 import top.mhxi.myshop.product.service.ProductSkuService;
@@ -28,6 +33,9 @@ public class ProductSpuServiceImpl implements ProductSpuService {
     private ProductSpuMapper productSpuMapper;
 
     @Autowired
+    private ProductSkuMapper productSkuMapper;
+
+    @Autowired
     private ProductSkuService productSkuService;
 
     @Autowired
@@ -44,6 +52,11 @@ public class ProductSpuServiceImpl implements ProductSpuService {
 
 
     public int deleteById(Long id) {
+        // 检查spu下是否有sku
+        List<ProductSku> productSkus = productSkuMapper.selectAll(id);
+        if (!productSkus.isEmpty()) {
+            throw new MyShopException(ResultCode.ERROR, "该spu下有sku，无法删除");
+        }
         return productSpuMapper.deleteByPrimaryKey(id);
     }
 

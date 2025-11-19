@@ -47,6 +47,14 @@ export default {
     })
   },
 
+  selectByCondition(current, queryCondition) {
+    return request({
+      url: `/order/order/selectByCondition/${current}`,
+      method: 'post',
+      data: queryCondition
+    })
+  },
+
   poll(id) {
     return request({
       url: `/order/order/poll/${id}`,

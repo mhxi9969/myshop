@@ -34,6 +34,8 @@
 
 -   管理者が商品管理できる
 
+-   管理者が注文管理できる
+
 ------
 
 
@@ -66,7 +68,7 @@
     -   注文履歴一覧
     -   注文詳細
 
--   管理者商品管理
+-   管理者
     -   登録 / 編集 / 削除
     -   画像アップロード（S3）
     -   管理者権限チェック
@@ -154,6 +156,7 @@
 -   ブランド管理画面
 -   カテゴリ管理画面
 -   商品管理
+-   注文管理
 
 ### 2.2.3 共通画面
 
@@ -281,7 +284,8 @@ OrderController
 -   DELETE  /order/order/{id}  IDに基づいて注文を削除
 -   GET  /order/order/{id}  IDに基づいて注文を取得
 -   GET  /order/order/token  決済ページ進入時にトークンを生成して二重注文を防止
--   GET  /order/order/selectAll  すべての注文を取得
+-   GET  /order/order/selectAll  あるUserのすべての注文を取得
+-   POST  /order/order/selectByCondition/{current}  すべての注文を取得
 -   GET  /order/order/poll/{id}  注文状態をポーリングで更新
 -   POST  /order/order  注文を追加
 -   PUT  /order/order  注文を更新
@@ -344,6 +348,7 @@ PayController
   - ログイン / 新規登録は任意の画面から遷移可能
 - 管理者画面
   - 商品管理 → 商品登録 / 編集 / 削除
+  - 注文管理 → 注文編集
 
 ------
 
@@ -540,6 +545,13 @@ PayController
     -   新規登録 
     -   編集 
     -   削除 
+
+**注文管理画面**
+
+-   表示内容: 注文一覧
+-   操作
+    -   編集 
+
 
 ------
 
@@ -1253,12 +1265,29 @@ GET /order/order/token
 
 GET /order/order/selectAll
 
--   説明: すべての注文を取得
+-   説明: あるUserすべての注文を取得
 -   Controller: `OrderController.selectAll()`
 -   Service手順:
     1.  DBからすべての注文取得
     2.  レスポンス返却
 -   DB操作: `SELECT * FROM order_order`
+
+GET /order/order/selectByCondition/{current}
+
+-   説明: すべての注文を取得
+-   Controller: `OrderController.selectByCondition()`
+-   Service手順:
+    1.  DBからすべての注文取得
+    2.  レスポンス返却
+-   DB操作: `select id, user_id, total_amount, status, receiver_name, receiver_phone, receiver_address,
+               trade_id, pay_time, delivery_time, receive_time, close_time, remark, create_time,
+               update_time
+               from order_order
+               WHERE 1 = 1
+               <if test="id != null">
+                 and user_id = #{id}
+               </if>
+               order by create_time desc`
 
 GET /order/order/poll/{id}
 

@@ -2,12 +2,14 @@ package top.mhxi.myshop.order.controller;
 
 
 
+import com.github.pagehelper.PageInfo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.BeanUtils;
 import top.mhxi.myshop.common.to.ProductSkuTO;
 import top.mhxi.myshop.common.utils.R;
 import top.mhxi.myshop.order.entity.Order;
+import top.mhxi.myshop.order.entity.query.OrderQueryCondition;
 import top.mhxi.myshop.order.entity.vo.OrderSubmitVO;
 import top.mhxi.myshop.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,13 +81,27 @@ public class OrderController {
     }
 
 
-    @Operation(summary = "查询所有Order")
+    @Operation(summary = "查询用户的所有Order")
     @GetMapping("/selectAll")
     public R selectAll(@CookieValue(value = "SESSIONID", required = false) String sessionId) {
         List<Order> orders = orderService.selectAll(sessionId);
 
         if(!orders.isEmpty()) {
             return R.ok().data("record", orders);
+        } else {
+            return R.error();
+        }
+    }
+
+
+    @Operation(summary = "根据条件查询订单，带分页")
+    @PostMapping("/selectByCondition/{current}")
+    public R selectByCondition(@PathVariable int current,
+                               @RequestBody(required = false) OrderQueryCondition condition) {
+        PageInfo<Order> info = orderService.selectByCondition(current, condition);
+
+        if(!info.getList().isEmpty()) {
+            return R.ok().data("record", info);
         } else {
             return R.error();
         }

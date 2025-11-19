@@ -23,11 +23,21 @@
               <i class="el-icon-goods"></i>
               <span>商品管理</span>
             </template>
-
             <el-menu-item index="/admin/product/brand">ブランド編集</el-menu-item>
             <el-menu-item index="/admin/product/category">カテゴリ編集</el-menu-item>
             <el-menu-item index="/admin/product/product">商品編集</el-menu-item>
           </el-submenu>
+
+
+          <el-submenu index="2">
+            <template #title>
+              <i class="el-icon-goods"></i>
+              <span>オーダー管理</span>
+            </template>
+            <el-menu-item index="/admin/order/order">オーダー管理</el-menu-item>
+          </el-submenu>
+
+
         </el-menu>
       </el-aside>
 

@@ -144,7 +144,6 @@
             <el-option :value="0" label="販売停止"></el-option>
           </el-select>
         </el-form-item>
-
       </el-form>
 
       <div slot="footer" class="dialog-footer">
@@ -311,13 +310,16 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
+      }).then(() => {
+        productSpuApi.deleteById(id)
+            .then((response) => {
+              if (response.data.code == 20000) {
+                this.selectByCondition(this.pageNum) // 删除后再次查询
+              } else {
+                this.$message.error(response.data.message)
+              }
+            })
       })
-          .then(() => {
-            productSpuApi.deleteById(id)
-                .then((response) => {
-                  this.selectByCondition() // 删除后再次查询
-                })
-          })
     },
 
     // 删除一个sku
@@ -373,14 +375,14 @@ export default {
       if (!this.spu.id) { // 没有id则新增
         productSpuApi.insert(this.spu)
             .then((response) => {
-              this.selectByCondition()
+              this.selectByCondition(this.pageNum)
               this.spu = {} // 清空
               this.dialogFormVisible = false
             })
       } else { // 有id则更新
         productSpuApi.update(this.spu)
             .then((response) => {
-              this.selectByCondition()
+              this.selectByCondition(this.pageNum)
               this.spu = {} // 清空
               this.dialogFormVisible = false
             })

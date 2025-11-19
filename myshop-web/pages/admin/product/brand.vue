@@ -142,7 +142,7 @@ export default {
       }).then(() => {
         brandApi.deleteById(id)
             .then((response) => {
-              this.selectByCondition() // 删除后再次查询
+              this.selectByCondition(this.pageNum) // 删除后再次查询
             })
       })
     },
@@ -166,14 +166,14 @@ export default {
       if (!this.brand.id) { // 没有id则新增
         brandApi.insert(this.brand)
             .then((response) => {
-              this.selectByCondition()
+              this.selectByCondition(this.pageNum)
               this.brand = {} // 清空
               this.dialogFormVisible = false
             })
       } else { // 有id则更新
         brandApi.update(this.brand)
             .then((response) => {
-              this.selectByCondition()
+              this.selectByCondition(this.pageNum)
               this.brand = {} // 清空
               this.dialogFormVisible = false
             })

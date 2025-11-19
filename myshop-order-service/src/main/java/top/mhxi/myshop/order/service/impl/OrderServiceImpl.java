@@ -3,6 +3,8 @@ package top.mhxi.myshop.order.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +23,7 @@ import top.mhxi.myshop.common.to.ProductSkuTO;
 import top.mhxi.myshop.common.to.UserTO;
 import top.mhxi.myshop.common.to.CartItemTO;
 import top.mhxi.myshop.order.entity.OrderItem;
+import top.mhxi.myshop.order.entity.query.OrderQueryCondition;
 import top.mhxi.myshop.order.entity.vo.OrderSubmitVO;
 import top.mhxi.myshop.order.feign.CartFeignClient;
 import top.mhxi.myshop.order.feign.PayFeignClient;
@@ -301,6 +304,16 @@ public class OrderServiceImpl implements OrderService {
         String token = UUID.randomUUID().toString();
         redisTemplate.opsForValue().set("order:token:" + token, "1", 30, TimeUnit.MINUTES);
         return token;
+    }
+
+    @Override
+    public PageInfo<Order> selectByCondition(int current, OrderQueryCondition condition) {
+        PageHelper.startPage(current, 3);
+        List<Order> list = orderMapper.selectByCondition(condition);
+
+        System.out.println(list);
+
+        return new PageInfo<Order>(list);
     }
 
 }

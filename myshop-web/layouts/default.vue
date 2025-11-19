@@ -76,6 +76,12 @@ export default {
     this.getUserBySession()
   },
 
+  watch: {
+    '$route.path'(newPath, oldPath) {
+      this.getUserBySession();
+    }
+  },
+
   methods: {
     onSearch() {
       const keyword = this.keyword ? this.keyword.trim() : '';

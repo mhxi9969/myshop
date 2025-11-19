@@ -64,10 +64,6 @@ export default {
 
   },
   filters: {
-    payTypeFilter(type) {
-      const map = { 1: '微信支付', 2: '支付宝', 3: 'PayPay' }
-      return map[type] || '未支付'
-    },
     statusFilter(status) {
       const map = { 0: '未払い', 1: '支払済み', 2: 'キャンセル済み' }
       return map[status] || '未知状态'

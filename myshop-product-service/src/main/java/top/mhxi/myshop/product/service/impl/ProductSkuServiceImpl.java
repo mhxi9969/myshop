@@ -79,9 +79,15 @@ public class ProductSkuServiceImpl implements ProductSkuService {
         return 1;
     }
 
-
+    @Transactional
     @CacheEvict(value = "ProductSku", key = "#id")
     public int deleteById(Long id) {
+        // 同时删除属性绑定
+        List<SkuAttrValue> skuAttrValues = skuAttrValueMapper.selectAll(id);
+        for (SkuAttrValue skuAttrValue : skuAttrValues) {
+            skuAttrValueMapper.deleteByPrimaryKey(skuAttrValue.getId());
+        }
+
         return productSkuMapper.deleteByPrimaryKey(id);
     }
 

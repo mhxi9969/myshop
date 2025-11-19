@@ -22,7 +22,7 @@ public class RabbitMQConfig {
                 // 设置过期后，进入死信交换机
                 .withArgument("x-dead-letter-exchange", "order-dlx-exchange")
                 .withArgument("x-dead-letter-routing-key", "order.stock.rollback")
-                .withArgument("x-message-ttl", 300000) // 300秒
+                .withArgument("x-message-ttl", 60000) // 60秒
                 .build();
     }
 

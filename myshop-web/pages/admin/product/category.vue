@@ -299,7 +299,12 @@ export default {
       }).then(() => {
         categoryApi.deleteById(id)
             .then((response) => {
-              this.selectAllCategory()
+              if (response.data.code === 20000) {
+                this.selectAllCategory()
+              } else {
+                this.$message.error(response.data.message)
+              }
+
             })
       })
     },
@@ -313,7 +318,11 @@ export default {
       }).then(() => {
         categoryApi.deleteById(c2.id)
             .then((response) => {
-              this.selectAllCategory2(c2.parentId)
+              if (response.data.code === 20000) {
+                this.selectAllCategory2(c2.parentId)
+              } else {
+                this.$message.error(response.data.message)
+              }
             })
       })
     },
@@ -325,9 +334,15 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        attrApi.deleteById(c3.id).then(() => {
-          this.selectAllAttr(c3.categoryId) // 刷新第3级分类列表
-        })
+        attrApi.deleteById(c3.id)
+            .then((response) => {
+              if (response.data.code === 20000) {
+                this.selectAllAttr(c3.categoryId) // 刷新第3级分类列表
+              } else {
+                this.$message.error(response.data.message)
+              }
+
+            })
       })
     },
 
@@ -338,9 +353,14 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        attrValueApi.deleteById(c4.id).then(() => {
-          this.selectAllAttrValue(c4.attrId) // 刷新第4级列表
-        })
+        attrValueApi.deleteById(c4.id)
+            .then((response) => {
+              if (response.data.code === 20000) {
+                this.selectAllAttrValue(c4.attrId) // 刷新第4级列表
+              } else {
+                this.$message.error(response.data.message)
+              }
+            })
       })
     },
 

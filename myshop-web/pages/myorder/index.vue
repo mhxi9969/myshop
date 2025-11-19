@@ -8,7 +8,7 @@
       </el-table-column>
 
       <!-- 状态 -->
-      <el-table-column label="状態" width="120">
+      <el-table-column label="状態" width="140">
         <template slot-scope="scope">
           <el-tag :type="statusType(scope.row.status)">
             {{ statusText(scope.row.status) }}

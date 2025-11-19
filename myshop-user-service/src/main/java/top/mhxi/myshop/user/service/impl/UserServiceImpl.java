@@ -6,6 +6,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import top.mhxi.myshop.common.handler.MyShopException;
 import top.mhxi.myshop.common.to.UserTO;
@@ -145,21 +146,29 @@ public class UserServiceImpl implements UserService {
         return (UserTO) redisTemplate.opsForValue().get("session:" + sessionId);
     }
 
-    // 发送验证码
+
+    // 发送验证码，异步发送，避免controller阻塞
+    @Async
     @Override
     public void sendCode(String email) {
         // 生成 4 位随机数字
         String code = String.format("%04d", new Random().nextInt(10000));
 
-        // 存入 Redis，有效期 5 分钟
         String key = "email:code:" + email;
-        redisTemplate.opsForValue().set(key, code, 5, TimeUnit.MINUTES);
+
+        // 检查1分钟内是否已经发送过
+        if (redisTemplate.hasKey(key)) {
+            throw new MyShopException(ResultCode.ERROR, "验证码一分钟内只能发送一次，请稍后再试");
+        }
+
+        // 存入 Redis，有效期 1 分钟
+        redisTemplate.opsForValue().set(key, code, 1, TimeUnit.MINUTES);
 
         // 构建邮件
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(email);
         mailMessage.setSubject("MyShop 注册验证码");
-        mailMessage.setText("您的验证码是：" + code + "，有效期 5 分钟。");
+        mailMessage.setText("您的验证码是：" + code + "，有效期 1 分钟。");
 
         try {
             javaMailSender.send(mailMessage);

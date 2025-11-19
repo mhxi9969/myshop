@@ -1,7 +1,6 @@
 package top.mhxi.myshop.user.controller;
 
 
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.BeanUtils;
@@ -37,10 +36,10 @@ public class UserController {
     @PostMapping
     public R insert(@Valid @RequestBody UserTO userTO) {  // @Valid开启校验
         User user = new User();
-        BeanUtils.copyProperties(userTO,user);
+        BeanUtils.copyProperties(userTO, user);
 
         int i = userService.insert(user);
-        if(i == 1) {
+        if (i == 1) {
             return R.ok();
         } else {
             return R.error();
@@ -52,7 +51,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     public R deleteById(@PathVariable Long id) {
         int i = userService.deleteById(id);
-        if(i == 1) {
+        if (i == 1) {
             return R.ok();
         } else {
             return R.error();
@@ -64,10 +63,10 @@ public class UserController {
     @PutMapping
     public R update(@Valid @RequestBody UserTO userTO) {
         User user = new User();
-        BeanUtils.copyProperties(userTO,user);
+        BeanUtils.copyProperties(userTO, user);
 
         int i = userService.update(user);
-        if(i == 1) {
+        if (i == 1) {
             return R.ok();
         } else {
             return R.error();
@@ -80,7 +79,7 @@ public class UserController {
     public R selectById(@PathVariable Long id) {
         User user = userService.selectById(id);
 
-        if(user != null) {
+        if (user != null) {
             UserTO userTO = new UserTO();
             BeanUtils.copyProperties(user, userTO);
             return R.ok().data("record", userTO);
@@ -95,7 +94,7 @@ public class UserController {
     public R selectAll() {
         List<User> users = userService.selectAll();
 
-        if(!users.isEmpty()) {
+        if (!users.isEmpty()) {
             List<UserTO> userTOS = new ArrayList<>();
 
             for (User user : users) {
@@ -111,7 +110,6 @@ public class UserController {
     }
 
 
-
     @Operation(summary = "用户注册")
     @PostMapping("/register")
     public R register(@Valid @RequestBody RegisterVO vo) {
@@ -122,7 +120,6 @@ public class UserController {
             return R.error();
         }
     }
-
 
 
     @Operation(summary = "用户登录")
@@ -145,14 +142,12 @@ public class UserController {
     }
 
 
-
     @Operation(summary = "用户退出登录")
     @PostMapping("/logout")
     public R logout(@CookieValue(value = "SESSIONID", required = false) String sessionId) {
         userService.logout(sessionId);
         return R.ok();
     }
-
 
 
     @Operation(summary = "根据session查询用户信息")
@@ -173,7 +168,7 @@ public class UserController {
     // string要用对象包装起来，否则会出错
     public R sendCode(@RequestBody EmailVO vo) {
         userService.sendCode(vo.getEmail());
-        return R.ok();
+        return R.ok().message("发送成功");
     }
 
 }

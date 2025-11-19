@@ -1,7 +1,9 @@
 package top.mhxi.myshop.order.service;
 
 
+import com.github.pagehelper.PageInfo;
 import top.mhxi.myshop.order.entity.Order;
+import top.mhxi.myshop.order.entity.query.OrderQueryCondition;
 import top.mhxi.myshop.order.entity.vo.OrderSubmitVO;
 
 import java.util.List;
@@ -16,4 +18,6 @@ public interface OrderService {
     boolean poll(String id);
 
     String getOrderToken();
+
+    PageInfo<Order> selectByCondition(int current, OrderQueryCondition condition);
 }
