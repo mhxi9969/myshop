@@ -166,7 +166,7 @@ public class UserController {
     @Operation(summary = "发送验证码")
     @PostMapping("/sendCode")
     // string要用对象包装起来，否则会出错
-    public R sendCode(@RequestBody EmailVO vo) {
+    public R sendCode(@Valid @RequestBody EmailVO vo) {
         userService.sendCode(vo.getEmail());
         return R.ok().message("发送成功");
     }
