@@ -1,5 +1,5 @@
 -- --------------------------------------------------------
--- 主机:                           52.69.65.203
+-- 主机:                           192.168.1.201
 -- 服务器版本:                        5.7.20 - MySQL Community Server (GPL)
 -- 服务器操作系统:                      Linux
 -- HeidiSQL 版本:                  11.3.0.6295
@@ -34,16 +34,14 @@ CREATE TABLE IF NOT EXISTS `order_order` (
   `receive_time` datetime DEFAULT NULL COMMENT '收货时间',
   `close_time` datetime DEFAULT NULL COMMENT '关闭时间',
   `remark` varchar(255) DEFAULT NULL COMMENT '订单备注',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单表';
 
--- 正在导出表  myshop_order.order_order 的数据：~3 rows (大约)
+-- 正在导出表  myshop_order.order_order 的数据：~6 rows (大约)
 DELETE FROM `order_order`;
 /*!40000 ALTER TABLE `order_order` DISABLE KEYS */;
-INSERT INTO `order_order` (`id`, `user_id`, `total_amount`, `status`, `receiver_name`, `receiver_phone`, `receiver_address`, `trade_id`, `pay_time`, `delivery_time`, `receive_time`, `close_time`, `remark`, `create_time`, `update_time`) VALUES
-	(1182851029927071744, 1182850641547104256, 100.00, 1, 'admin', 'admin', 'admin', 'https://qr-stg.sandbox.paypay.ne.jp/28180104GPJIACGXtG4sickj', NULL, NULL, NULL, NULL, NULL, '2025-11-03 23:28:47', '2025-11-03 23:29:12');
 /*!40000 ALTER TABLE `order_order` ENABLE KEYS */;
 
 -- 导出  表 myshop_order.order_order_item 结构
@@ -62,11 +60,9 @@ CREATE TABLE IF NOT EXISTS `order_order_item` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单项表';
 
--- 正在导出表  myshop_order.order_order_item 的数据：~4 rows (大约)
+-- 正在导出表  myshop_order.order_order_item 的数据：~6 rows (大约)
 DELETE FROM `order_order_item`;
 /*!40000 ALTER TABLE `order_order_item` DISABLE KEYS */;
-INSERT INTO `order_order_item` (`id`, `order_id`, `sku_id`, `sku_name`, `sku_picture`, `sku_price`, `sku_quantity`, `total_price`, `create_time`, `update_time`) VALUES
-	(1182851030120009728, 1182851029927071744, 1180668431482097664, 'アップル Apple スマートフォン iPhone 17 ホワイト 256GB ', 'https://top-mhxi-myshop-product-images.s3.ap-northeast-1.amazonaws.com/product/31d39c6a-9f88-4031-bdc9-16e18f782bf1-Snipaste_2025-10-27_12-58-21.jpg', 100.00, 1, 100.00, '2025-11-03 23:28:47', '2025-11-03 23:28:47');
 /*!40000 ALTER TABLE `order_order_item` ENABLE KEYS */;
 
 
@@ -107,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `product_attr_value` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品属性值表';
 
--- 正在导出表  myshop_product.product_attr_value 的数据：~8 rows (大约)
+-- 正在导出表  myshop_product.product_attr_value 的数据：~9 rows (大约)
 DELETE FROM `product_attr_value`;
 /*!40000 ALTER TABLE `product_attr_value` DISABLE KEYS */;
 INSERT INTO `product_attr_value` (`id`, `name`, `attr_id`, `create_time`, `update_time`) VALUES
@@ -136,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `product_brand` (
 DELETE FROM `product_brand`;
 /*!40000 ALTER TABLE `product_brand` DISABLE KEYS */;
 INSERT INTO `product_brand` (`id`, `name`, `picture`, `create_time`, `update_time`) VALUES
-	(1180133221678059520, 'apple', 'https://top-mhxi-myshop-product-images.s3.ap-northeast-1.amazonaws.com/product/c367124f-0eaa-4330-962b-6f3e4fdf689b-apple.jpg', '2025-10-27 11:29:10', '2025-10-27 11:29:10'),
+	(1180133221678059520, 'apple', 'https://top-mhxi-myshop-product-images.s3.ap-northeast-1.amazonaws.com/product/c367124f-0eaa-4330-962b-6f3e4fdf689b-apple.jpg', '2025-10-27 11:29:10', '2025-11-19 19:54:03'),
 	(1182833265640345600, 'DELL', 'https://top-mhxi-myshop-product-images.s3.ap-northeast-1.amazonaws.com/product/dac6e079-3ccb-4936-b6a3-e935658c5682-Snipaste_2025-11-02_14-20-11.jpg', '2025-11-03 22:18:13', '2025-11-03 22:18:13');
 /*!40000 ALTER TABLE `product_brand` ENABLE KEYS */;
 
@@ -152,14 +148,12 @@ CREATE TABLE IF NOT EXISTS `product_category` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品分类表';
 
--- 正在导出表  myshop_product.product_category 的数据：~5 rows (大约)
+-- 正在导出表  myshop_product.product_category 的数据：~3 rows (大约)
 DELETE FROM `product_category`;
 /*!40000 ALTER TABLE `product_category` DISABLE KEYS */;
 INSERT INTO `product_category` (`id`, `name`, `parent_id`, `sort`, `create_time`, `update_time`) VALUES
 	(1180134230244593664, 'デジタル', 0, 1, '2025-10-27 11:33:10', '2025-11-03 22:00:42'),
 	(1180134265061511168, 'スマートフォン', 1180134230244593664, 1, '2025-10-27 11:33:19', '2025-11-03 22:01:03'),
-	(1180629639232622592, '电视', 1180629605871128576, 1, '2025-10-28 20:21:45', '2025-10-28 20:21:45'),
-	(1180629715103387648, '冰箱', 1180629605871128576, 2, '2025-10-28 20:22:03', '2025-10-28 20:22:03'),
 	(1180629958180081664, 'パソコン', 1180134230244593664, 2, '2025-10-28 20:23:01', '2025-11-03 22:01:00');
 /*!40000 ALTER TABLE `product_category` ENABLE KEYS */;
 
@@ -181,13 +175,13 @@ CREATE TABLE IF NOT EXISTS `product_product_sku` (
 DELETE FROM `product_product_sku`;
 /*!40000 ALTER TABLE `product_product_sku` DISABLE KEYS */;
 INSERT INTO `product_product_sku` (`id`, `name`, `spu_id`, `picture`, `price`, `stock`, `create_time`, `update_time`) VALUES
-	(1180668431482097664, 'アップル Apple スマートフォン iPhone 17 ホワイト 256GB ', 1180655856363114496, 'https://top-mhxi-myshop-product-images.s3.ap-northeast-1.amazonaws.com/product/31d39c6a-9f88-4031-bdc9-16e18f782bf1-Snipaste_2025-10-27_12-58-21.jpg', 100.00, 99, '2025-10-28 22:55:53', '2025-11-03 23:28:47'),
-	(1180839419851182080, 'アップル Apple スマートフォン iPhone 17 ホワイト 512GB ', 1180655856363114496, 'https://top-mhxi-myshop-product-images.s3.ap-northeast-1.amazonaws.com/product/4558fead-c6b7-4440-953d-ab741fc21b57-Snipaste_2025-10-27_12-58-21.jpg', 200.00, 98, '2025-10-29 10:15:20', '2025-11-03 22:52:36'),
-	(1180839507763793920, 'アップル Apple スマートフォン iPhone 17 ブラック 256GB ', 1180655856363114496, 'https://top-mhxi-myshop-product-images.s3.ap-northeast-1.amazonaws.com/product/1cdf5419-9ca7-47cc-938e-2509fe2728f7-Snipaste_2025-10-27_12-59-30.jpg', 100.00, 94, '2025-10-29 10:15:41', '2025-11-03 23:25:23'),
+	(1180668431482097664, 'アップル Apple スマートフォン iPhone 17 ホワイト 256GB ', 1180655856363114496, 'https://top-mhxi-myshop-product-images.s3.ap-northeast-1.amazonaws.com/product/31d39c6a-9f88-4031-bdc9-16e18f782bf1-Snipaste_2025-10-27_12-58-21.jpg', 100.00, 98, '2025-10-28 22:55:53', '2025-11-19 20:09:36'),
+	(1180839419851182080, 'アップル Apple スマートフォン iPhone 17 ホワイト 512GB ', 1180655856363114496, 'https://top-mhxi-myshop-product-images.s3.ap-northeast-1.amazonaws.com/product/4558fead-c6b7-4440-953d-ab741fc21b57-Snipaste_2025-10-27_12-58-21.jpg', 200.00, 97, '2025-10-29 10:15:20', '2025-11-19 19:18:01'),
+	(1180839507763793920, 'アップル Apple スマートフォン iPhone 17 ブラック 256GB ', 1180655856363114496, 'https://top-mhxi-myshop-product-images.s3.ap-northeast-1.amazonaws.com/product/1cdf5419-9ca7-47cc-938e-2509fe2728f7-Snipaste_2025-10-27_12-59-30.jpg', 100.00, 100, '2025-10-29 10:15:41', '2025-11-19 19:17:55'),
 	(1180839622847107072, 'アップル Apple スマートフォン iPhone 17 ブラック 512GB ', 1180655856363114496, 'https://top-mhxi-myshop-product-images.s3.ap-northeast-1.amazonaws.com/product/5257a9f1-75fd-403c-9df0-304639130509-Snipaste_2025-10-27_12-59-30.jpg', 200.00, 100, '2025-10-29 10:16:08', '2025-11-03 22:23:35'),
-	(1182835343095894016, 'DELL デル ノートパソコン Intel 5080', 1182834903872573440, 'https://top-mhxi-myshop-product-images.s3.ap-northeast-1.amazonaws.com/product/7708c303-5295-4c4c-8d93-c4da7a200221-Snipaste_2025-11-02_14-20-49.jpg', 100.00, 99, '2025-11-03 22:26:28', '2025-11-03 23:21:56'),
-	(1182835431805423616, 'DELL デル ノートパソコン Intel 5090', 1182834903872573440, 'https://top-mhxi-myshop-product-images.s3.ap-northeast-1.amazonaws.com/product/666e59c8-1653-469d-ba66-de5d7709e93a-Snipaste_2025-11-02_14-20-49.jpg', 200.00, 98, '2025-11-03 22:26:50', '2025-11-03 23:05:17'),
-	(1182835523564212224, 'DELL デル ノートパソコン AMD 5080', 1182834903872573440, 'https://top-mhxi-myshop-product-images.s3.ap-northeast-1.amazonaws.com/product/b9d87146-122d-4a2b-8265-0ae133fed111-Snipaste_2025-11-02_14-20-49.jpg', 100.00, 100, '2025-11-03 22:27:11', '2025-11-03 22:27:11'),
+	(1182835343095894016, 'DELL デル ノートパソコン Intel 5080', 1182834903872573440, 'https://top-mhxi-myshop-product-images.s3.ap-northeast-1.amazonaws.com/product/7708c303-5295-4c4c-8d93-c4da7a200221-Snipaste_2025-11-02_14-20-49.jpg', 100.00, 92, '2025-11-03 22:26:28', '2025-11-19 20:09:36'),
+	(1182835431805423616, 'DELL デル ノートパソコン Intel 5090', 1182834903872573440, 'https://top-mhxi-myshop-product-images.s3.ap-northeast-1.amazonaws.com/product/666e59c8-1653-469d-ba66-de5d7709e93a-Snipaste_2025-11-02_14-20-49.jpg', 200.00, 99, '2025-11-03 22:26:50', '2025-11-19 20:16:00'),
+	(1182835523564212224, 'DELL デル ノートパソコン AMD 5080', 1182834903872573440, 'https://top-mhxi-myshop-product-images.s3.ap-northeast-1.amazonaws.com/product/b9d87146-122d-4a2b-8265-0ae133fed111-Snipaste_2025-11-02_14-20-49.jpg', 100.00, 100, '2025-11-03 22:27:11', '2025-11-19 19:17:48'),
 	(1182835635401134080, 'DELL デル ノートパソコン AMD 5090', 1182834903872573440, 'https://top-mhxi-myshop-product-images.s3.ap-northeast-1.amazonaws.com/product/26a5b85a-eaa3-479f-a76d-481d4a6e8ef7-Snipaste_2025-11-02_14-20-49.jpg', 200.00, 100, '2025-11-03 22:27:38', '2025-11-03 22:27:38');
 /*!40000 ALTER TABLE `product_product_sku` ENABLE KEYS */;
 
@@ -209,7 +203,7 @@ CREATE TABLE IF NOT EXISTS `product_product_spu` (
 DELETE FROM `product_product_spu`;
 /*!40000 ALTER TABLE `product_product_spu` DISABLE KEYS */;
 INSERT INTO `product_product_spu` (`id`, `name`, `brand_id`, `category1_id`, `category2_id`, `status`, `create_time`, `update_time`) VALUES
-	(1180655856363114496, 'iphone17', 1180133221678059520, 1180134230244593664, 1180134265061511168, 1, '2025-10-28 22:05:55', '2025-11-03 23:20:03'),
+	(1180655856363114496, 'iphone17', 1180133221678059520, 1180134230244593664, 1180134265061511168, 1, '2025-10-28 22:05:55', '2025-11-19 19:51:09'),
 	(1182834903872573440, 'DELL NOTE', 1182833265640345600, 1180134230244593664, 1180629958180081664, 1, '2025-11-03 22:24:44', '2025-11-03 23:25:10');
 /*!40000 ALTER TABLE `product_product_spu` ENABLE KEYS */;
 
@@ -244,9 +238,7 @@ INSERT INTO `product_sku_attr_value` (`id`, `sku_id`, `attr_id`, `value_id`, `cr
 	(1182835523568406528, 1182835523564212224, 1182829296578859008, 1182829498966609920, '2025-11-03 22:27:11', '2025-11-03 22:27:11'),
 	(1182835523572600832, 1182835523564212224, 1182829368393732096, 1182829558387314688, '2025-11-03 22:27:11', '2025-11-03 22:27:11'),
 	(1182835635405328384, 1182835635401134080, 1182829296578859008, 1182829498966609920, '2025-11-03 22:27:38', '2025-11-03 22:27:38'),
-	(1182835635409522688, 1182835635401134080, 1182829368393732096, 1182829539961737216, '2025-11-03 22:27:38', '2025-11-03 22:27:38'),
-	(1182849971951636480, 1182849971930664960, 1182829296578859008, 1182829498966609920, '2025-11-03 23:24:35', '2025-11-03 23:24:46'),
-	(1182849971960025088, 1182849971930664960, 1182829368393732096, 1182829539961737216, '2025-11-03 23:24:35', '2025-11-03 23:24:46');
+	(1182835635409522688, 1182835635401134080, 1182829368393732096, 1182829539961737216, '2025-11-03 22:27:38', '2025-11-03 22:27:38');
 /*!40000 ALTER TABLE `product_sku_attr_value` ENABLE KEYS */;
 
 
@@ -263,13 +255,13 @@ CREATE TABLE IF NOT EXISTS `user_user` (
   `password` varchar(255) DEFAULT NULL COMMENT '密码',
   `email` varchar(100) DEFAULT NULL COMMENT '邮箱',
   `phone` varchar(20) DEFAULT NULL COMMENT '手机号',
-  `role` char(50) DEFAULT NULL COMMENT '状态 0-禁用 1-启用',
+  `role` char(50) DEFAULT NULL COMMENT '角色 USER用户 ADMIN管理员',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
 
--- 正在导出表  myshop_user.user_user 的数据：~3 rows (大约)
+-- 正在导出表  myshop_user.user_user 的数据：~2 rows (大约)
 DELETE FROM `user_user`;
 /*!40000 ALTER TABLE `user_user` DISABLE KEYS */;
 INSERT INTO `user_user` (`id`, `name`, `password`, `email`, `phone`, `role`, `create_time`, `update_time`) VALUES
